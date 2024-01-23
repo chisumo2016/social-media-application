@@ -20,3 +20,13 @@
 
     RUN DEV  VERSION
         npm run dev
+
+# GENERATE MODELS AND MIGRATIONS
+    php artisan make:model Post -m
+    php artisan make:model PostAttachment -m
+    php artisan make:model PostReaction -m
+    php artisan make:model Comment -m
+    php artisan make:model Group -m
+    php artisan make:model GroupUser -m
+    php artisan make:model Follower -m
+    php artisan make:model Notification -m
