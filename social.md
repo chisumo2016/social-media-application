@@ -78,7 +78,10 @@
     - guest  user will nott  hhave the permission to access homepage
     -  User  not authenticated will be redirected to login  page  
     -  Once user is authenticated will  see sommethig
-
+    - Delete Dashboaard.Vue and route   routes/web.php
+    - remove  dashbvoard link  in resources/js/Pages/Home.vue
+    - Make HomeController inside container
+        php  artisan make:controller HomeController
 
 
 
