@@ -1,4 +1,12 @@
 # SETTINGS
+         https://docs.google.com/document/d/1z4I1pxRHKZhRujvaUpiZVtnlq0Zts6LSBj_LMAYkJo0/edit?pli=1#heading=h.l0rgbwhswjr5
+          https://www.youtube.com/watch?v=WahJ91Nrgn0
+          https://www.youtube.com/watch?v=WahJ91Nrgn0
+          https://www.youtube.com/watch?v=WahJ91Nrgn0
+          https://www.youtube.com/watch?v=WcAC9Nd-FmE&list=PLLQuc_7jk__Wa8IoZ2s0J-ql_MIisndtZ&index=4
+          https://www.youtube.com/watch?v=qlkS-e5ym1w&t=42s
+          https://www.youtube.com/watch?v=ED8iAkPzsUE
+          http://0.0.0.0:1234/register
     - Install sail via curl
     - Change the port .env
             APP_PORT=1234
@@ -22,11 +30,84 @@
         npm run dev
 
 # GENERATE MODELS AND MIGRATIONS
+    php artisan make:model Group -m
+    php artisan make:model GroupUser -m
     php artisan make:model Post -m
     php artisan make:model PostAttachment -m
     php artisan make:model PostReaction -m
     php artisan make:model Comment -m
-    php artisan make:model Group -m
-    php artisan make:model GroupUser -m
     php artisan make:model Follower -m
     php artisan make:model Notification -m
+
+    ADD THE COLUMN TO EXISTING TABLE
+        php artisan make:migration add_column_to_users_table
+    php artisan migrate
+
+    Connect on database ,look at docker-compose.yml
+
+     WARN[0000] The "WWWUSER " variable is not set. Defaulting to a blank string.
+
+# GENERATE UNIQUE USERNAME ON REGISTRATION
+    app/Models/User.php
+    https://github.com/spatie/laravel-sluggable
+        Make sure  ur inside DC 
+            composer require spatie/laravel-sluggable
+    - implements MustVerifyEmail in User MModel
+    TRY TO REGISTER NEW USER 
+        . after registerattion u will get notification
+        .Use mailpit - sending fake email
+            1025 Sending email
+            8025 Dashboard   http://0.0.0.0:8025/
+
+    PASSED
+    
+    We need to  give the possibility for user to thange into profile page
+        . Add the user name 
+            resources/js/Pages/Profile/Partials/UpdateProfileInformationForm.vue
+        .If vite innst running 
+            sail@8a0588caac3c:/var/www/html$ npm run dev
+
+    app/Models/User.php     
+    app/Http/Controllers/ProfileController.php
+     PLEASE READ THE REGEX  
+
+
+
+
+# CREATE HOME PAGE UI WITH  TAILWIND CSS
+    - guest  user will nott  hhave the permission to access homepage
+    -  User  not authenticated will be redirected to login  page  
+    -  Once user is authenticated will  see sommethig
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
