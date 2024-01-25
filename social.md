@@ -108,8 +108,9 @@
             resources/js/Components/app/GroupListItems.vue
 
 
-
-
+    Delete public/build folder
+    Use the  AuthenticatedLayout on Home Page
+        .Scroll bar has been omitted due to herancy
 
 
 
