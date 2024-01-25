@@ -82,8 +82,30 @@
     - remove  dashbvoard link  in resources/js/Pages/Home.vue
     - Make HomeController inside container
         php  artisan make:controller HomeController
+    - Design U
+            https://tailwindui.com/?ref=top
+                . Gridd https://tailwindcss.com/docs/grid-template-columns
+                . Cols-spn https://tailwindcss.com/docs/grid-column#spanning-columns
+            Image  rondom 
+                https://picsum.photos/200
+    -Create Group component
+            resources/js/Components/app/GroupItem.vue
+            resources/js/Components/app/GroupList.vue
 
+    -Create Followers component
+            resources/js/Components/app/FrindItem.vue
+            resources/js/Components/app/FollowerList.vue
 
+    -Create Post  component
+            resources/js/Components/app/PostList.vue
+            resources/js/Components/app/CreatePost.vue
+                https://tailwindui.com/components/application-ui/forms/form-layouts
+            resources/js/Components/app/PostItem.vue
+                . https://headlessui.com/
+                        https://github.com/tailwindlabs/headlessui
+                        npm install @headlessui/vue@latest
+            resources/js/Components/app/GroupListItems.vue
+            resources/js/Components/app/GroupListItems.vue
 
 
 
