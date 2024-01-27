@@ -113,10 +113,13 @@
         .Scroll bar has been omitted due to herancy
 
 
-
-
-
-
+# CREATE USER PROFILE PAGE UI 
+        https://laravel.com/docs/10.x/routing#implicit-binding
+    - Associate with the current  user
+    - Open route file
+      Route::get('/u/{user:username}', [ProfileController::class,'index'])->name('profile');
+    - open app/Http/Controllers/ProfileController.php
+    - resources/js/Pages/Profile/View.vue
 
 
 

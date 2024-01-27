@@ -18,6 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [HomeController::class,'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/u/{user:username}', [ProfileController::class,'index'])->name('profile');
 
 
 
