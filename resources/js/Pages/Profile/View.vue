@@ -2,10 +2,10 @@
     <AuthenticatedLayout>
         <div class="max-w-[768px]  mx-auto h-full overflow-auto">
             <div
-                v-show="showNotification && status === 'cover-image-update'"
+                v-show="showNotification && success"
                 class="my-2 py-2 px-3 font-medium text-sm bg-emerald-500 text-white"
             >
-                Your cover image has been updated .
+                {{ success}}.
             </div>
 
             <div
@@ -67,11 +67,48 @@
                     </div>
                 </div>
 
+              <!-- Avatar  -->
                 <div class="flex">
-                    <img
-                        src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
-                        alt=""
-                        class="ml-[48px] w-[128px] h-[128px] -mt-[64px]">
+
+                    <div class="flex items-center justify-center  relative group/avatar -mt-[64px] ml-[48px] w-[128px] h-[128px] rounded-full overflow-hidden">
+                        <img
+                            :src="avatarImageSrc || user.avatar_url || '/image/default_cover.webp'"
+                            alt=""
+                            class="w-full h-full object-cover rounded-full">
+
+                            <button
+                                v-if="!avatarImageSrc"
+                                class="absolute
+                                        left-0
+                                        top-0 right-0 bottom-0
+                                        bg-black/50 text-gray-200
+                                        flex items-center justify-center
+                                        text-xs opacity-0 group-hover/avatar:opacity-100 rounded-full">
+
+                                <CameraIcon class="w-8 h-8"/>
+
+                                <input
+                                    @change="onAvatarChange"
+                                    type="file"
+                                    class="absolute left-0 top-0 right-0 bottom-0 opacity-0 cursor-pointer">
+                            </button>
+
+                            <div v-else class="absolute top-1 right-0 flex flex-col gap-2">
+                                <button
+                                    @click="cancelAvatarImage"
+                                    class="w-7 h-7 flex items-center justify-center bg-red-500/80 text-white rounded-full">
+                                    <XMarkIcon class="h-5 w-5"/>
+
+                                </button>
+                                <button
+                                    @click="submitAvatarImage"
+                                    class="w-7 h-7 flex items-center justify-center bg-emerald-500/80 text-white rounded-full">
+                                    <CheckCircleIcon class="h-5 w-5"/>
+
+                                </button>
+                            </div>
+
+                    </div>
                     <div class="flex justify-between items-center flex-1 p-4">
                         <h2 class="font-bold text-lg">{{ user.name }}</h2>
 
@@ -131,7 +168,7 @@
 
 <script setup>
 import {computed, ref, watch} from 'vue'
-import { XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
+import { XMarkIcon, CheckCircleIcon ,CameraIcon } from '@heroicons/vue/24/solid'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 
 import {usePage} from "@inertiajs/vue3";
@@ -144,6 +181,7 @@ import { useForm } from '@inertiajs/vue3'
 
 const authUser = usePage().props.auth.user;
 const coverImageSrc = ref('')
+const avatarImageSrc = ref('')
 const showNotification = ref(true)
 
 
@@ -158,6 +196,9 @@ const props = defineProps({
         type: Boolean,
     },
     status: {
+        type: String,
+    },
+    success: {
         type: String,
     },
     user:{
@@ -190,20 +231,52 @@ function onCoverChange(event) {
     }
 }
 
+function onAvatarChange(event) {
+    console.log(event)
+    imagesForm.avatar = event.target.files[0]
+    if (imagesForm.avatar){
+        //read that file
+        const  reader = new FileReader()
+        reader.onload = () => {
+            console.log("Onload")
+            avatarImageSrc.value = reader.result
+        }
+        reader.readAsDataURL(imagesForm.avatar)
+    }
+}
+
 function cancelCoverImage() {
     imagesForm.cover = null;
     coverImageSrc.value =null
 }
 
+function cancelAvatarImage() {
+    imagesForm.avatar = null;
+    avatarImageSrc.value =null
+}
+
 function submitlCoverImage() {
     console.log(imagesForm.cover); //send to backend
-    imagesForm.post(route('profile.updateCover'),{
+    imagesForm.post(route('profile.updateImages'),{
         onSuccess: (user) => {
             console.log(user)
             cancelCoverImage()
             setInterval(() =>{
             showNotification.value = false
           }, 3000)
+        }
+    })
+}
+
+function submitAvatarImage() {
+    console.log(imagesForm.cover); //send to backend
+    imagesForm.post(route('profile.updateImages'),{
+        onSuccess: (user) => {
+            console.log(user)
+            cancelAvatarImage()
+            setInterval(() =>{
+                showNotification.value = false
+            }, 3000)
         }
     })
 }
