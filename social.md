@@ -132,6 +132,9 @@
     - Single action to update the  cover and avatar
     - routes/web.php
 
+## IMPPLEMET POST CREATION PART 7
+    - no attachemnt 
+    - front end and backend 
 
 
 

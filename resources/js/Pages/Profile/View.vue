@@ -127,9 +127,7 @@
             <div class="border-t">
                 <TabGroup>
                     <TabList class="flex bg-white">
-                        <Tab v-if="isMyProfile" v-slot="{ selected }" as="template">
-                          <TablItem text="About" :selected="selected"/>
-                        </Tab>
+
                         <Tab v-slot="{ selected }" as="template">
                             <TablItem text="Posts" :selected="selected"/>
                         </Tab>
@@ -143,12 +141,13 @@
                         <Tab v-slot="{ selected }" as="template">
                             <TablItem text="Photos" :selected="selected"/>
                         </Tab>
+                        <Tab v-if="isMyProfile" v-slot="{ selected }" as="template">
+                            <TablItem text="My Profile" :selected="selected"/>
+                        </Tab>
                     </TabList>
 
                     <TabPanels class="mt-2">
-                        <TabPanel  v-if="isMyProfile">
-                                <Edit :must-verify-email="mustVerifyEmail" :status="status"/>
-                        </TabPanel>
+
                         <TabPanel  class="bg-white p-3 shadow">
                             Post Content
                         </TabPanel>
@@ -158,6 +157,9 @@
                         </TabPanel>
                         <TabPanel  class="bg-white p-3 shadow">
                             Photos
+                        </TabPanel>
+                        <TabPanel  v-if="isMyProfile">
+                            <Edit :must-verify-email="mustVerifyEmail" :status="status"/>
                         </TabPanel>
                     </TabPanels>
                 </TabGroup>
