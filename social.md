@@ -121,8 +121,16 @@
     - open app/Http/Controllers/ProfileController.php
     - resources/js/Pages/Profile/View.vue
 
-
-
+# USER COVER & AVATAR  IMAGE UPLOAD 
+    https://laravel.com/docs/10.x/eloquent-resources#main-content
+    npm install @heroicons/vue
+    https://unpkg.com/browse/@heroicons/vue@2.1.1/24/outline/
+    https://inertiajs.com/forms
+    - Work on resources/js/Pages/Profile/View.vue
+    - Show the update button on cover
+    php artisan make:resource UserResource 
+    - Single action to update the  cover and avatar
+    - routes/web.php
 
 
 
