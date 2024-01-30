@@ -1,19 +1,37 @@
 <script setup>
 import {ref} from "vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputTextArea from "@/Components/InputTextArea.vue";
+import {useForm} from "@inertiajs/vue3";
 
 const   postCreating = ref(false);
+
+const  newPostForm = useForm({
+    body: ''
+})
+
+function createPost() {
+    newPostForm.post(route('post.create'),{
+        onSuccess : () =>{
+            newPostForm.reset()
+        }
+    })
+}
+
 </script>
 
 <template>
     <div class="p-4 bg-white rounded-lg border mb-4">
-        <div
+        <InputTextArea
             @click="postCreating = true"
-            class="py-3 px-2 text-gray-500 border border-gray-200 rounded text-gray-400 border-2 rounded mb-3">
-            Click hereto create new Post
-        </div>
+            rows="1"
+            class="mb-3 w-full"
+            v-model="newPostForm.body"
+            placeholder="Click here to create new Post" />
+
         <div v-if="postCreating" class="flex gap-2 justify-between">
             <button
-                type="submit"
+                type="button"
                 class="rounded-md
                         bg-indigo-600
                         px-3 py-2 text-sm
@@ -27,6 +45,7 @@ const   postCreating = ref(false);
                 Attach  Files
             </button>
             <button
+                @click="createPost"
                 type="submit"
                 class="rounded-md
                         bg-indigo-600

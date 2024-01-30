@@ -135,12 +135,31 @@
 ## IMPPLEMET POST CREATION PART 7
     - no attachemnt 
     - front end and backend 
+    - Open app/Http/Controllers/HomeController.php
+    - Open resources/js/Pages/Home.vue
+    - Create  a InputTextArea.vue
+    - Add logic intp CreatePost.vue
+    - Define  the route
+    - create Controller and model Post
+            php artisan make:controller PostController --model=Post
+    - Create a request Post
+             php artisan make:request  StorePostRequest
+             php artisan make:request  UpdatePostRequest
+    - SQLSTATE[HY000]: General error: 1364 Field 'user_id' doesn't have a default value
+    - Undefined property: Illuminate\Auth\AuthManager::$id
+        app/Http/Controllers/PostController.php
+        app/Http/Requests/StorePostRequest.php
+        app/Http/Controllers/HomeController.php
+        resources/js/Components/app/CreatePost.vue
+        php artisan make:resource PostResource
+        -resources/js/Pages/Home.vue
+        -resources/js/Components/app/PostList.vue
+        -resources/js/Components/app/PostItem.vue
 
-
-
-
-
-    
+# UPDATING AND DELETING OF POSTS
+    - implemennt drop down button , 
+    - Click onn edit will show up the modal pop  to be dispaly
+    - https://headlessui.com/vue/menu
 
 
 
