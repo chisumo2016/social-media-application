@@ -160,8 +160,17 @@
     - implemennt drop down button , 
     - Click onn edit will show up the modal pop  to be dispaly
     - https://headlessui.com/vue/menu
+    -- Open resources/js/Components/app/PostItem.vue
+    -- Dialogue to be in separate commponent
+        https://headlessui.com/vue/dialog
+            . To implemet two way binding btn PostItem and PostModal
+            . To  pass the postmodal
+            .Define emiit in postModal
 
-
+    - Two wayys to handle the update
+        Inertia  way 
+        Custom http requeest ways axio
+    - Uncaught Error: Ziggy error: 'post' parameter is required for route 'post.update'.
 
 
 
