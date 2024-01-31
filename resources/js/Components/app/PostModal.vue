@@ -1,5 +1,6 @@
 <template>
    <teleport to="body">
+
        <TransitionRoot appear :show="show" as="template">
            <Dialog as="div" @close="closeModal" class="relative z-10">
                <TransitionChild
@@ -34,7 +35,7 @@
                                    as="h3"
                                    class="flex items-center justify-between py-3 px-4  font-medium  bg-gray-100 leading-6 text-gray-900"
                                >
-                                   Update Post
+                                   {{ form.id ? 'Update Post' : 'Create  Post' }}
                                    <button   @click="show = false" class="w-8 h-8 rounded-full hover:bg-black/5 transition flex items-center justify-center">
 
                                        <XMarkIcon class="w-4 h-4"/>
@@ -79,6 +80,7 @@
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import { useForm } from '@inertiajs/vue3'
 import {computed, onMounted, onUpdated, reactive, watch} from 'vue'
+
 import {
     TransitionRoot,
     TransitionChild,
@@ -89,6 +91,7 @@ import {
 import InputTextArea from "@/Components/InputTextArea.vue";
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 
 const editor = ClassicEditor;
 const editorConfig ={
@@ -103,7 +106,8 @@ const editorConfig ={
         'outdent',
         '|',
         'blockQuote',
-        ]
+        ],
+   // balloonToolbar: ['balloonLink','balloonBlockquote','balloonIndent','balloonAlign','balloonImage']
 }
 
 
@@ -148,13 +152,24 @@ function submit() {
     //     id: props.post.id,
     //     body:props.post.body,
     // })
-
-    form.put(route('post.update', props.post.id),{
-        preserveScroll: true,
-        onSuccess: () =>{
-            show.value = false
-        }
-    })
+    if (form.id){
+        form.put(route('post.update', props.post.id),{
+            preserveScroll: true,
+            onSuccess: () =>{
+                show.value = false
+                form.reset()
+            }
+        })
+    }else {
+        // Create
+        form.post(route('post.create'),{
+            preserveScroll: true,
+            onSuccess : () =>{
+                show.value = false
+                form.reset()
+            }
+        })
+    }
 }
 
 </script>

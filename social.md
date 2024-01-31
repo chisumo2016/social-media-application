@@ -182,6 +182,15 @@
     - resources/css/app.css
     - resources/js/Components/app/PostItem.vue
             provide class="ck-content-output"
+    - We need to do tthe same on post creatiin
+            . Display Modal 
+    - Open resources/js/Pages/Home.vue
+    - resources/js/Components/app/CreatePost.vue
+        . change postCreating to showCreatePostModal
+        . add 
+             <!--    Post Modal-->
+        <PostModal :post="editPost" v-model="showEditModal"/>
+    - Open resources/js/Components/app/PostList.vue
 
 
 
