@@ -172,6 +172,16 @@
         Custom http requeest ways axio
     - Uncaught Error: Ziggy error: 'post' parameter is required for route 'post.update'.
 
+# ADD CKEDITOR DURING POST CREATION AND UPDATING
+    - use chat
+    - ckeditor
+        https://ckeditor.com/docs/ckeditor5/latest/installation/integrations/vuejs-v3.html
+            npm install --save @ckeditor/ckeditor5-vue @ckeditor/ckeditor5-build-classic
+    - resources/js/app.js
+    - resources/js/Components/app/PostModal.vue
+    - resources/css/app.css
+    - resources/js/Components/app/PostItem.vue
+            provide class="ck-content-output"
 
 
 
