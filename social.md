@@ -191,8 +191,14 @@
              <!--    Post Modal-->
         <PostModal :post="editPost" v-model="showEditModal"/>
     - Open resources/js/Components/app/PostList.vue
+        app/Http/Requests/StorePostRequest.php
+    tailwind.config.js
+    Attempt to read property "id" on null
+        app/Http/Middleware/HandleInertiaRequests.php
 
 
+#  UPLOADING ATTACHMENTS OF FRONTEND ONLY 
+    - Adding the attachmentts  part to our post
 
 
 
