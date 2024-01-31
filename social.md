@@ -199,8 +199,17 @@
 
 #  UPLOADING ATTACHMENTS OF FRONTEND ONLY 
     - Adding the attachmentts  part to our post
+    - Possibility to remove the  attacchemnt
+    - Upload Multtiple file
+    - Sendd the file to the sever 
+    - Display them
+    - Assuming we have one file ,should put in one full screen
+    - How we can delete other file after uploading
+    - If you close the modal ,attachment  stiil there
+        /Users/developer/Documents/code/social-media-application/resources/js/Components/app/PostModal.vue
+    - CClick attach file will upload file picker in PostModel
+    - Open the Postitem.vue to render all the attachments
+            resources/js/Components/app/PostItem.vue
 
-
-
-
-
+         <!-- <InputTextArea v-model="form.body"  class="mb-3 w-full" />-->
+     <img v-if="isImage({mime: myFile.file.type})"

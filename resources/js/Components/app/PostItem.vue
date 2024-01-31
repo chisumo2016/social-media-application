@@ -5,6 +5,7 @@ import {PencilIcon, TrashIcon,  EllipsisVerticalIcon} from '@heroicons/vue/20/so
 
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import {router} from "@inertiajs/vue3";
+import {isImage} from "@/Helpers/helpers.js"; //'../../Helpers/helpers.js
 
 const props = defineProps({
     post: Object
@@ -12,10 +13,7 @@ const props = defineProps({
 
 const emit = defineEmits(['editClick'])
 
-function isImage(attachment) {
-    const  mime = attachment.mime.split('/')
-    return mime[0].toLowerCase() ==  'image'
-}
+
 
 function openEditModal() {
     emit('editClick', props.post)
@@ -34,10 +32,10 @@ function deletePost() {
 <!--    Post Header-->
 <div class="bg-white border rounded p-4 mb-3">
     <div class="flex items-center justify-between  mb-3">
+        <!--    Post User Header Component   -->
+       <PostUserHeader :post="post"/>
 
-        <PostUserHeader :post="post"/>
-
-        <!--    Drop down    -->
+       <!--    Drop down    -->
        <Menu as="div" class="relative inline-block text-left">
                     <div>
                         <MenuButton
@@ -122,10 +120,11 @@ function deletePost() {
 
 <!--  Attachment Section -->
     <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
-        <template v-for="attachment of post.attachments">
+        <template v-for="attachment of attachmentFiles">
 
             <div  class="group aspect-square  bg-blue-100 flex flex-col items-center justify-center  text-gray-500 relative">
-            <!--     Download Image            -->
+
+                <!--  Download Image    -->
                 <button class="opacity-0 group-hover:opacity-100 transition-all   w-8 h-8 flex items-center justify-center text-gray-200 bg-gray-700 rounded absolute right-2 top-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                          class="w-4 h-4  cursor-pointer">
@@ -135,7 +134,7 @@ function deletePost() {
                     </svg>
                 </button>
 
-                <!--    Attachment            -->
+                <!--    Attachment   -->
                 <img v-if="isImage(attachment)"
                      :src="attachment.url" alt=""
                      class="object-cover aspect-square">
