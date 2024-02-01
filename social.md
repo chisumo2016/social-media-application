@@ -257,6 +257,15 @@
                 "file": "[object File]",
                 "url": null
                 }
- - Sort byy latest
+        - Sort byy latest
+    - Downloading  the attachments
+        resources/js/Components/app/PostItem.vue
+    - Add web route
+        Route::get('/post/download/{post}',[PostController::class,'download'])->name('post.download');
+        resources/js/Components/app/PostItem.vue
+        app/Http/Controllers/PostController.php
+
+# Preview Post Attachments on Full Screen 
+    - Preview the attachment on full screen .
       
   
