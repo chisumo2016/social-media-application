@@ -237,3 +237,26 @@
 # DELETE AND DOWNLOAD  POST ATTACHMENT
     Deleting the posst andd adding more attachemnt during post  update
     Implement tthe  downloading attachments
+    Let start on editing on the post
+    When creating the post we should remove the existing   attachment and add new  Attachmnet (Edit)
+    Create new computed property, merge the  new attachment with existing onne
+            OLD FILE
+                                    [
+                {
+                "id": 21,
+                "name": "Anxiety.pdf",
+                "mime": "application/pdf",
+                "size": 275812,
+                "url": "/storage/attachments/35/njNH9A3Hdo73lM5WLHIEmiqU8cKh1haXZ6LUIFzO.pdf",
+                "created_at": "2024-01-31T22:35:28.000000Z"
+                }
+                ]
+
+            NEW FILE UPLOADDING 
+            {
+                "file": "[object File]",
+                "url": null
+                }
+ - Sort byy latest
+      
+  

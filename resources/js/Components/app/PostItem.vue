@@ -34,10 +34,10 @@ function deletePost() {
        <PostUserHeader :post="post"/>
 
        <!--    Drop down    -->
-       <Menu as="div" class="relative inline-block text-left">
+       <Menu as="div" class="relative inline-block text-left z-10">
                     <div>
                         <MenuButton
-                            class="w-8 h-8 z-10 rounded-full hover:bg-black/5 transition flex items-center justify-center"
+                            class="w-8 h-8 rounded-full hover:bg-black/5 transition flex items-center justify-center"
                         >
                             <EllipsisVerticalIcon
                                 class="w-4 h-4"
@@ -101,9 +101,9 @@ function deletePost() {
     <div class="mb-3">
         <Disclosure v-slot="{ open }">
 <!--                <pre>{{ open}}</pre>-->
-            <div v-if="!open " v-html="post.body.substring(0, 200)" class="ck-content-output"/>
+            <div v-if="!open " v-html="post.body" class="ck-content-output"/>
 
-            <template v-if="post.body.length > 200">
+            <template v-if="post.body">
                 <DisclosurePanel>
                     <div v-html="post.body" class="ck-content-output"/>
                 </DisclosurePanel>
@@ -118,12 +118,13 @@ function deletePost() {
 
 <!--  Attachment Section -->
     <div class="grid   gap-3 mb-3" :class="[post.attachments.length == 1 ? 'grid-cols-1' : 'grid-cols-2']">
+
         <template v-for="(attachment,index) of post.attachments.slice(0,4)">
 
             <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative cursor-pointer">
 
                 <!--  Render max 3   -->
-                <div v-if="index == 3"
+                <div v-if="index == 3 && post.attachments.length >4 "
                      class="absolute
                             left-0 top-0
                             right-0 bottom-0

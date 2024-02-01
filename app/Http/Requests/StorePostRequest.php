@@ -36,6 +36,7 @@ class StorePostRequest extends FormRequest
                   ])->max(500 * 1024 * 1024 )
               ]
         ];
+
     }
 
     protected function prepareForValidation()
