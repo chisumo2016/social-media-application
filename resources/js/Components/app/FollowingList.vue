@@ -30,7 +30,9 @@ import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
         </div>
 
         <div class="h-full overflow-hidden flex-col hidden lg:flex">
-            <h2 class="text-xl font-bold px-3">My Followings</h2>
+            <div class="flex justify-between">
+                <h2 class="text-xl font-bold">My Followings</h2>
+            </div>
             <FollowingListItems/>
         </div>
     </div>
