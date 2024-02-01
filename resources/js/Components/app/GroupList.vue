@@ -28,7 +28,9 @@ import GroupListItems from "@/Components/app/GroupListItems.vue";
         </div>
 
        <div class="h-full overflow-hidden flex-col hidden lg:flex">
-           <h2 class="text-xl font-bold px-3">My Groups</h2>
+           <div class="flex justify-between">
+               <h2 class="text-xl font-bold">My Groups</h2>
+           </div>
              <GroupListItems/>
        </div>
     </div>
