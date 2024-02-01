@@ -31,13 +31,25 @@ function showCreatePostModal() {
 </script>
 
 <template>
-    <div class="p-4 bg-white rounded-lg border mb-4">
+    <div class="p-4 bg-white dark:bg-slate-950 rounded-lg border dark:border-slate-900 mb-3">
         <div
             @click="showCreatePostModal"
             rows="1"
-            class="py-2 px-3 border-2 border-gray-200 text-gray-400 rounded-md  mb-3 w-full"
+            class="py-2 px-3 border-2 border-gray-200 dark:border-slate-900 text-gray-500 rounded-md mb-3 w-full"
              >Click here to create new Post</div>
 
+        <!--    Post Modal-->
+        <PostModal :post="newPost" v-model="showModal"/>
+    </div>
+</template>
+
+<style scoped>
+
+</style>
+
+
+<!--p-4 bg-white rounded-lg border mb-4-->
+<!--py-2 px-3 border-2 border-gray-200 text-gray-400 rounded-md  mb-3 w-full-->
 <!--        <div class="flex gap-2 justify-between">-->
 <!--            <button-->
 <!--                type="button"-->
@@ -68,11 +80,3 @@ function showCreatePostModal() {
 <!--            >Submit</button>-->
 <!--        </div>-->
 
-        <!--    Post Modal-->
-        <PostModal :post="newPost" v-model="showModal"/>
-    </div>
-</template>
-
-<style scoped>
-
-</style>

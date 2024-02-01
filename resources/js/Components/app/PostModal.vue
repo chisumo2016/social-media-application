@@ -49,6 +49,7 @@ const props = defineProps({
 const form  = useForm({
     id: null,
     body: '',
+    attachments:[] //send to  the server
 
 })
 
@@ -76,31 +77,33 @@ watch(() => props.post,() => {
 
 function closeModal() {
     show.value = false
-    form.reset()
-    attachmentFiles.value = []
+    resetModal()
+
     //emit('update:modelValue', false) //emit to the parent via setter
 }
 
 function submit() {
-    // const form = useForm({
-    //     id: props.post.id,
-    //     body:props.post.body,
-    // })
+    form.attachments = attachmentFiles.value.map(myFile  => myFile.file)
+
+    /*Update Post*/
     if (form.id){
         form.put(route('post.update', props.post.id),{
             preserveScroll: true,
             onSuccess: () =>{
-                show.value = false
-                form.reset()
+                closeModal()
+                //show.value = false
+                //resetModal()
+                //form.reset()
             }
         })
     }else {
-        // Create
+       /*Create Post*/
         form.post(route('post.create'),{
             preserveScroll: true,
-            onSuccess : () =>{
-                show.value = false
-                form.reset()
+            onSuccess : () => {
+                closeModal()
+                //show.value = false
+                //form.reset()
             }
         })
     }
@@ -109,7 +112,7 @@ function submit() {
 async function onAttachmentChoose($event) {
    console.log($event.target.files)
     for (const  file of  $event.target.files){
-        const myFile = {
+        const myFile = { //object
             file,
             url : await readFile(file)
         }
@@ -141,12 +144,17 @@ function removeFile(myFile) {
 
 }
 
+function resetModal() {
+    form.reset()
+    attachmentFiles.value = []
+}
+
 </script>
 <template>
    <teleport to="body">
 
        <TransitionRoot appear :show="show" as="template">
-           <Dialog as="div" @close="closeModal" class="relative z-10">
+           <Dialog as="div" @close="closeModal" class="relative z-50">
                <TransitionChild
                    as="template"
                    enter="duration-300 ease-out"
@@ -173,14 +181,14 @@ function removeFile(myFile) {
                            leave-to="opacity-0 scale-95"
                        >
                            <DialogPanel
-                               class="w-full max-w-md transform overflow-hidden rounded bg-white text-left align-middle shadow-xl transition-all"
+                               class="w-full max-w-md transform overflow-hidden rounded bg-white dark:bg-slate-900 text-left align-middle shadow-xl transition-all"
                            >
                                <DialogTitle
                                    as="h3"
-                                   class="flex items-center justify-between py-3 px-4  font-medium  bg-gray-100 leading-6 text-gray-900"
+                                   class="flex items-center justify-between py-3 px-4 font-medium bg-gray-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100"
                                >
                                    {{ form.id ? 'Update Post' : 'Create  Post' }}
-                                   <button   @click="show = false" class="w-8 h-8 rounded-full hover:bg-black/5 transition flex items-center justify-center">
+                                   <button   @click="show = false" class="-8 h-8 rounded-full hover:bg-black/5 dark:hover:bg-black/30 transition flex items-center justify-center">
 
                                        <XMarkIcon class="w-4 h-4"/>
                                    </button>
@@ -193,10 +201,11 @@ function removeFile(myFile) {
                                    <ckeditor :editor="editor" v-model="form.body" :config="editorConfig"></ckeditor>
 
                                    <!-- ATTACHMENT PREVIEW  -->
-                                   <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 my-3">
-                                       <template v-for="(myFile, index) of attachmentFiles">
+                                   <div class="grid  gap-3 my-3" :class="[attachmentFiles.length  == 1 ? 'grid-cols-1' : 'grid-cols-2']">
 
-                                           <div  class="group aspect-square  bg-blue-100 flex flex-col items-center justify-center  text-gray-500 relative">
+                                       <template v-for="myFile of attachmentFiles">
+
+                                           <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative border-2">
 
                                                <!--  Download Image    -->
                                                <button class="opacity-0 group-hover:opacity-100 transition-all   w-8 h-8 flex items-center justify-center text-gray-200 bg-gray-700 rounded absolute right-2 top-2">
@@ -211,11 +220,7 @@ function removeFile(myFile) {
                                                <!--  Remove File Bitton    -->
                                                <button
                                                    @click="removeFile(myFile)"
-                                                   class="absolute right-3 top-3 Z-20
-                                                       w-7 h-7 flex
-                                                       items-center
-                                                       justify-center
-                                                        bg-black/30 text-white rounded-full hover:bg-black/40">
+                                                   class="bsolute z-20 right-3 top-3 w-7 h-7 flex items-center justify-center bg-black/30 text-white rounded-full hover:bg-black/40">
                                                    <XMarkIcon class="h-5 w-5"/>
 
                                                </button>
@@ -223,7 +228,7 @@ function removeFile(myFile) {
                                                <!--    Attachment   -->
                                                <img v-if="isImage(myFile.file)"
                                                     :src="myFile.url" alt=""
-                                                    class="object-cover aspect-square">
+                                                    class="object-contain aspect-square">
                                                <template v-else>
                                                    <PaperClipIcon class="w-10 h-10 mb-3"/>
 
@@ -238,16 +243,8 @@ function removeFile(myFile) {
                                <div class="flex gap-2 py-3 px-4">
                                    <button
                                        type="button"
-                                       class="flex items-center justify-center
-                                            rounded-md
-                                            bg-indigo-600
-                                            px-3 py-2 text-sm
-                                            font-semibold text-white
-                                            shadow-sm hover:bg-indigo-500
-                                            focus-visible:outline
-                                            focus-visible:outline-2
-                                            focus-visible:outline-offset-2
-                                            focus-visible:outline-indigo-600 w-full relative"
+
+                                       class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-full relative"
                                        @click="submit"
                                    >
                                        <PaperClipIcon  class="w-4 h-4 mr-2"/>
@@ -262,16 +259,7 @@ function removeFile(myFile) {
 
                                    <button
                                        type="button"
-                                       class="flex items-center justify-center
-                                            rounded-md
-                                            bg-indigo-600
-                                            px-3 py-2 text-sm
-                                            font-semibold text-white
-                                            shadow-sm hover:bg-indigo-500
-                                            focus-visible:outline
-                                            focus-visible:outline-2
-                                            focus-visible:outline-offset-2
-                                            focus-visible:outline-indigo-600 w-full"
+                                       class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-full"
                                        @click="submit"
                                    >
                                        <BookmarkIcon class="w-4 h-4 mr-2"/>

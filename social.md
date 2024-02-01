@@ -200,6 +200,7 @@
 #  UPLOADING ATTACHMENTS OF FRONTEND ONLY 
     - Adding the attachmentts  part to our post
     - Possibility to remove the  attacchemnt
+    - Everyy attachmment has unnique name
     - Upload Multtiple file
     - Sendd the file to the sever 
     - Display them
@@ -213,3 +214,26 @@
 
          <!-- <InputTextArea v-model="form.body"  class="mb-3 w-full" />-->
      <img v-if="isImage({mime: myFile.file.type})"
+
+    ---- SERVER SIDE ---------
+    resources/js/Components/app/PostModal.vue
+    - Show the progress when the  file or attachments is uploaded
+    - open app/Http/Requests/StorePostRequest.php
+        https://laravel.com/docs/10.x/validation#validating-files
+    - open app/Http/Controllers/PostController.php
+        . File to be accessiblee in the browser
+    - Add  size column
+        php artisan make:migration add_size_column_to_post_attachments_table 
+
+    - How to  make file name random ? 
+
+        php artisan make:resource PostAttachmentResource
+    - We will make the image Clickable  and gallery
+    - If its  oone file , we can display in full width .
+        resources/js/Components/app/PostItem.vue
+           grid-cols-2  lg:grid-cols-3
+        resources/js/Components/app/PostModal.vue
+
+# DELETE AND DOWNLOAD  POST ATTACHMENT
+    Deleting the posst andd adding more attachemnt during post  update
+    Implement tthe  downloading attachments
