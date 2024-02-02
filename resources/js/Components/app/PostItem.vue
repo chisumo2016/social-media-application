@@ -5,13 +5,14 @@ import {PencilIcon, TrashIcon,  EllipsisVerticalIcon} from '@heroicons/vue/20/so
 import {ChatBubbleLeftRightIcon, HandThumbUpIcon,ArrowDownTrayIcon} from '@heroicons/vue/24/outline'
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import {router} from "@inertiajs/vue3";
-import {isImage} from "@/Helpers/helpers.js"; //'../../Helpers/helpers.js
+import {isImage} from "@/Helpers/helpers.js";
+import {PaperClipIcon} from "@heroicons/vue/20/solid/index.js"; //'../../Helpers/helpers.js
 
 const props = defineProps({
     post: Object
 })
 
-const emit = defineEmits(['editClick'])
+const emit = defineEmits(['editClick' ,'attachmentClick'])
 
 function openEditModal() {
     emit('editClick', props.post)
@@ -23,6 +24,12 @@ function deletePost() {
             preserveScroll: true
         })
     }
+}
+
+/*Preview Attachment**/
+function openAttachment(index) {
+    console.log(index)
+    emit('attachmentClick', props.post , index) // passing  post to a paraent, this section is chhil
 }
 </script>
 
@@ -121,7 +128,11 @@ function deletePost() {
 
         <template v-for="(attachment,index) of post.attachments.slice(0,4)">
 
-            <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative cursor-pointer">
+            <!--  Preview Attachment -->
+            <div
+
+                @click="openAttachment(index)"
+                 class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative cursor-pointer">
 
                 <!--  Render max 3   -->
                 <div v-if="index == 3 && post.attachments.length >4 "
@@ -143,16 +154,8 @@ function deletePost() {
                      :src="attachment.url" alt=""
                      class="object-contain aspect-square">
 
-                <template v-else>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 24 24"
-                         fill="currentColor"
-                         class="w-12 h-12">
-                        <path
-                            d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z"/>
-                        <path
-                            d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z"/>
-                    </svg>
+                <template v-else class="flex flex-col justify-center items-center">
+                    <PaperClipIcon  class="w-4 h-4 mr-2"/>
 
                     <small>{{ attachment.name }}</small>
                 </template>

@@ -266,6 +266,41 @@
         app/Http/Controllers/PostController.php
 
 # Preview Post Attachments on Full Screen 
+        
     - Preview the attachment on full screen .
+    - Any post is public , or show to the  speecific grp of people
+    - Make the  preview  in full screen.Open in  full screenn
+    -Create  a Modal AttachmentPreviewModal.vue
+        PostItem is Child
+        PostList is Parent
+    resources/js/Components/app/AttachmentPreviewModal.vue
+    resources/js/Components/app/PostItem.vue
+    resources/js/Components/app/PostList.vue
+    resources/js/Components/app/PostModal.vue
+
+# Post Attachment Validation 
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       
   
