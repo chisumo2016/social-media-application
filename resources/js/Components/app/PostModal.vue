@@ -1,6 +1,6 @@
 <script setup>
 import { XMarkIcon ,PaperClipIcon ,BookmarkIcon ,ArrowUpLeftIcon} from '@heroicons/vue/20/solid'
-import { useForm } from '@inertiajs/vue3'
+import {useForm, usePage} from '@inertiajs/vue3'
 import {computed, onMounted, onUpdated, reactive, ref, watch} from 'vue'
 
 import {
@@ -43,6 +43,11 @@ const props = defineProps({
     modelValue: Boolean,
 })
 
+const attachmentExtensions = usePage().props.attachmentExtensions
+//const pageProps = usePage().props;
+//console.log(pageProps)
+
+
 //const reactivePost  = reactive(props.post)
 //console.log(props)
 
@@ -75,6 +80,8 @@ const emit = defineEmits(['update:modelValue','hide'])
  * @type {Ref<UnwrapRef<*[]>>}
  */
 const attachmentFiles = ref([])
+const attachmentErrors = ref([])
+const showExtensionsText = ref(false)
 
 watch(() => props.post,() => {
     console.log("This is triggered" , props.post)
@@ -97,29 +104,48 @@ function submit() {
         form._method = 'PUT'
         form.post(route('post.update', props.post.id),{
             preserveScroll: true,
-            onSuccess: () =>{
+            onSuccess: (resp) =>{
+                console.log("on success", resp)
                 closeModal()
                 //show.value = false
                 //resetModal()
                 //form.reset()
+            },
+            onError: (errors) =>{
+                //iterate
+                processErrors(errors)
+                console.log(errors)
             }
         })
     }else {
        /*Create Post*/
         form.post(route('post.create'),{
             preserveScroll: true,
-            onSuccess : () => {
+            onSuccess : (resp) => {
+                console.log("on success", resp)
                 closeModal()
                 //show.value = false
                 //form.reset()
+            },
+            onError: (errors) =>{
+                //iterate
+                processErrors(errors)
+                console.log(errors)
             }
         })
     }
 }
 
 async function onAttachmentChoose($event) {
+    showExtensionsText.value = false
    console.log($event.target.files)
     for (const  file of  $event.target.files){
+        let parts = file.name.split('.')
+        let  ext = parts.pop().toLowerCase()
+        console.log(ext)
+        if (!attachmentExtensions.includes(ext)){
+            showExtensionsText.value = true
+        }
         const myFile = { //object
             file,
             url : await readFile(file)
@@ -160,14 +186,28 @@ function removeFile(myFile) {
 function resetModal() {
     form.reset()
     attachmentFiles.value = []
+    showExtensionsText.value= false
+    attachmentErrors.value = []
+    if (props.post.attachments){
+        props.post.attachments.forEach(file => file.deleted = false)
+    }
 
-    props.post.attachments.forEach(file => file.deleted = false)
 }
 
 function undoDelete(myFile) {
     myFile.deleted = false;
     form.deleted_file_ids = form.deleted_file_ids.filter(id => myFile.id !== id)
 
+}
+
+function processErrors(errors)
+{
+    for (const key in errors){
+        if (key.includes('.')){ //error for attachments
+            const[,index] = key.split('.')
+            attachmentErrors.value[index] = errors[key]
+        }
+    }
 }
 
 </script>
@@ -222,15 +262,22 @@ function undoDelete(myFile) {
 
                                 <!-- CKEDITOR  -->
                                    <ckeditor :editor="editor" v-model="form.body" :config="editorConfig"></ckeditor>
+                                   <!-- EXTENSIONS -->
+                                   <div v-if="showExtensionsText"
+                                        class="border-l-4 border-amber-500 py-2 px-3 bg-amber-100 mt-3 text-gray-800">
+                                       File must be one of the  following extensions:
+                                       <small>{{ attachmentExtensions.join(', ') }}</small>
+                                   </div>
 
                                    <!-- ATTACHMENT PREVIEW - EDIT POST -->
 
-<!--                                        <pre>{{ form.deleted_file_ids }}</pre>-->
+                                    <!--      <pre>{{ form.deleted_file_ids }}</pre>-->
                                    <div class="grid  gap-3 my-3" :class="[computedAttachments  == 1 ? 'grid-cols-1' : 'grid-cols-2']">
 
-                                       <template v-for="(myFile, index ) of computedAttachments">
+                                       <div v-for="(myFile, index ) of computedAttachments">
 
-                                           <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative border-2">
+                                           <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative border-2"
+                                                 :class="attachmentErrors[ind] ? 'border-red-500' : '' ">
 
                                                <!--  Download Image    -->
                                                <button class="opacity-0 group-hover:opacity-100 transition-all
@@ -263,13 +310,14 @@ function undoDelete(myFile) {
                                                <img v-if="isImage(myFile.file ||  myFile)"
                                                     :src="myFile.url" alt=""
                                                     class="object-contain aspect-square" :class="myFile.deleted ? 'opacity-50' : ''">
-                                               <div v-else class="flex flex-col justify-center items-center" :class="myFile.deleted ? 'opacity-50' : ''">
+                                               <div v-else class="flex flex-col justify-center items-center px-3" :class="myFile.deleted ? 'opacity-50' : ''">
                                                    <PaperClipIcon class="w-10 h-10 mb-3"/>
 
                                                    <small class="text-center">{{ (myFile.file || myFile).name }}</small>
                                                </div>
                                            </div>
-                                       </template>
+                                             <small class="text-red-500"> {{ attachmentErrors[ind] }}</small>
+                                       </div>
                                    </div>
 <!--                                        <prev>{{ post.attachments }}</prev>-->
                                </div>

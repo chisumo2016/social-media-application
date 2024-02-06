@@ -279,9 +279,15 @@
     resources/js/Components/app/PostModal.vue
 
 # Post Attachment Validation 
+    -  Upload the  error validation to the file w/c is not allowed  to be uploaded
+        . dislay error on the botton of the attachment as on second
+        - Open resources/js/Components/app/PostModal.vue
+        - app/Http/Middleware/HandleInertiaRequests.php
+        - app/Http/Requests/StorePostRequest.php
+        - resources/js/Components/app/PostItem.vue
+        - resources/js/Components/app/PostModal.vue
 
-
-
+# Customize Uploaded File Size
 
 
 
