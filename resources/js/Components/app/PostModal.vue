@@ -33,7 +33,17 @@ const editorConfig ={
     // balloonToolbar: ['balloonLink','balloonBlockquote','balloonIndent','balloonAlign','balloonImage']
 }
 
-
+/**
+ * {
+ *     file: File,
+ *     url: '',
+ * }
+ * @type {Ref<UnwrapRef<*[]>>}
+ */
+const attachmentFiles = ref([])
+const attachmentErrors = ref([])
+const FormErrors  = ref({})
+//const showExtensionsText = ref(false)
 
 const props = defineProps({
     post:{
@@ -69,19 +79,24 @@ const computedAttachments = computed(() => {
     return [...attachmentFiles.value, ...(props.post.attachments || [])];  //merge old . new
 })
 
+const showExtensionsText = computed(() =>{
+    for (let myFile of attachmentFiles.value){
+        const file = myFile.file
+        let parts = file.name.split('.')
+        let  ext = parts.pop().toLowerCase()
+        console.log(ext)
+        if (!attachmentExtensions.includes(ext)){
+            return true
+        }
+    }
+
+    return  false
+})
+
 
 const emit = defineEmits(['update:modelValue','hide'])
 
-/**
- * {
- *     file: File,
- *     url: '',
- * }
- * @type {Ref<UnwrapRef<*[]>>}
- */
-const attachmentFiles = ref([])
-const attachmentErrors = ref([])
-const showExtensionsText = ref(false)
+
 
 watch(() => props.post,() => {
     console.log("This is triggered" , props.post)
@@ -137,15 +152,10 @@ function submit() {
 }
 
 async function onAttachmentChoose($event) {
-    showExtensionsText.value = false
+    //showExtensionsText.value = false
    console.log($event.target.files)
     for (const  file of  $event.target.files){
-        let parts = file.name.split('.')
-        let  ext = parts.pop().toLowerCase()
-        console.log(ext)
-        if (!attachmentExtensions.includes(ext)){
-            showExtensionsText.value = true
-        }
+
         const myFile = { //object
             file,
             url : await readFile(file)
@@ -185,6 +195,7 @@ function removeFile(myFile) {
 
 function resetModal() {
     form.reset()
+    FormErrors.value ={}
     attachmentFiles.value = []
     showExtensionsText.value= false
     attachmentErrors.value = []
@@ -202,10 +213,13 @@ function undoDelete(myFile) {
 
 function processErrors(errors)
 {
+    FormErrors.value =  errors
     for (const key in errors){
         if (key.includes('.')){ //error for attachments
             const[,index] = key.split('.')
             attachmentErrors.value[index] = errors[key]
+        }else{
+
         }
     }
 }
@@ -262,11 +276,16 @@ function processErrors(errors)
 
                                 <!-- CKEDITOR  -->
                                    <ckeditor :editor="editor" v-model="form.body" :config="editorConfig"></ckeditor>
+
                                    <!-- EXTENSIONS -->
                                    <div v-if="showExtensionsText"
                                         class="border-l-4 border-amber-500 py-2 px-3 bg-amber-100 mt-3 text-gray-800">
                                        File must be one of the  following extensions:
                                        <small>{{ attachmentExtensions.join(', ') }}</small>
+                                   </div>
+
+                                   <div v-if="FormErrors.attachments" class="border-l-4 border-red-500 py-2 px-3 bg-amber-100 mt-3 text-gray-800">
+                                        {{ FormErrors.attachments }}
                                    </div>
 
                                    <!-- ATTACHMENT PREVIEW - EDIT POST -->

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rules\File;
 
 class StorePostRequest extends FormRequest
@@ -33,11 +34,25 @@ class StorePostRequest extends FormRequest
         return [
               'body'    => ['nullable', 'string'],
               'user_id' => ['numeric'],
-              'attachments' => 'array|max:50',
+              'attachments' => [
+                  'array',
+                  'max:50',
+
+            function ($attribute, $value, $fail) { // $value is array of attachments
+
+               $totalSize = collect($value)->sum(fn(UploadedFile $file) => $file->getSize());
+                //dd($totalSize); // mb
+
+                if ($totalSize > 1 * 1024 * 1024 * 1024) {
+                    $fail('The total size of all files cannot exceed 1GB.');
+                }
+            },
+          ],
               'attachments.*' => [
                   'file',
-                  File::types(self::$extension)->max(500 * 1024 * 1024 )
-              ]
+                  File::types(self::$extension), //File::types(self::$extension)->max(500 * 1024 * 1024 ),
+                 // 'max:' .(500 * 1024), //MB
+              ],
         ];
 
     }
@@ -52,10 +67,19 @@ class StorePostRequest extends FormRequest
 
     public function messages()
     {
+
         return [
-            'attachments.*'  => 'Invalid file extensions: '.
-                implode(', ', self::$extension)
+            'attachments.*.file' => 'Each attachment must be a file.',
+            'attachments.*.mimes' => 'Invalid file type for attachments.',
+            //'attachments.*.max' => 'Each attachment may not be larger than 500KB.',
         ];
     }
 
 }
+
+
+//        'attachments.*'  => 'Invalid file extensions: '.
+//            implode(', ', self::$extension)
+//    $totalSize = collect()->sum(function (UploadedFile $file){
+//         return $file->getSize();
+//   });

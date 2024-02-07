@@ -288,6 +288,14 @@
         - resources/js/Components/app/PostModal.vue
 
 # Customize Uploaded File Size
+     git checkout .
+     git clean -fd
+     ./vendor/bin/sail stop
+     ./vendor/bin/sail  build --no-cache   
+     ./vendor/bin/sail  up -d 
+     ./vendor/bin/sail  bash
+    sail@bdda47ce7245:/var/www/html$ npm run dev 
+
 
 
 
