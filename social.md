@@ -288,6 +288,8 @@
         - resources/js/Components/app/PostModal.vue
 
 # Customize Uploaded File Size
+    resources/js/Components/app/PostModal.vue
+    app/Http/Controllers/PostController.php
      git checkout .
      git clean -fd
      ./vendor/bin/sail stop
@@ -296,6 +298,30 @@
      ./vendor/bin/sail  bash
     sail@bdda47ce7245:/var/www/html$ npm run dev 
 
+# Implement Reactions on Posts 
+        https://axios-http.com/docs/api_intro
+        https://axios-http.com/docs/interceptors
+        https://stitcher.io/blog/php-enums
+        https://laravel.com/docs/10.x/validation#rule-enum
+    - Like  post 
+    - Use axios / Fetch API
+    - Install axios
+         npm install -S axios
+    - Create axios client
+    resources/js/axiosClient.js
+    resources/js/Components/app/PostItem.vue
+    routes/web.php
+    app/Models/Post.php
+    app/Models/PostReaction.php
+    app/Http/Enum/PostReactionEnum.php
+    app/Http/Controllers/PostController.php
+    app/Http/Resources/PostResource.php
+    app/Http/Controllers/HomeController.php
+
+# WRITINNG COMMENTS ON PPOSTS
+    Writing the  comments on te post
+    Comment  sectiion will be collapsable
+    Show each post 
 
 
 

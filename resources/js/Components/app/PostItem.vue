@@ -6,7 +6,8 @@ import {ChatBubbleLeftRightIcon, HandThumbUpIcon,ArrowDownTrayIcon} from '@heroi
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import {router} from "@inertiajs/vue3";
 import {isImage} from "@/Helpers/helpers.js";
-import {PaperClipIcon} from "@heroicons/vue/20/solid/index.js"; //'../../Helpers/helpers.js
+import {PaperClipIcon} from "@heroicons/vue/20/solid/index.js";
+import axiosClient from "@/axiosClient.js"; //'../../Helpers/helpers.js
 
 const props = defineProps({
     post: Object
@@ -30,6 +31,19 @@ function deletePost() {
 function openAttachment(index) {
     console.log(index)
     emit('attachmentClick', props.post , index) // passing  post to a paraent, this section is chhil
+}
+
+function sendReaction() {
+    axiosClient.post(route('post.reaction', props.post),{
+        reaction:'like'
+    })
+        .then(({data}) =>{
+            props.post.current_user_has_reaction = data.current_user_has_reaction
+            props.post.num_of_reactions = data.num_of_reactions
+
+
+            console.log(res)
+        })
 }
 </script>
 
@@ -163,10 +177,20 @@ function openAttachment(index) {
         </template>
     </div>
     <div class="flex gap-2">
-<!--            Like Icon-->
-        <button class="text-gray-800 flex gap-1 items-center justify-center bg-gray-100 hover:bg-gray-200 py-2 px-4 flex-1 rounded-lg">
-            <HandThumbUpIcon class="w-5 h-5 mr-2"/>
-                Like
+            <!-- Like Icon Reaction-->
+        <button
+            @click="sendReaction"
+            class="text-gray-800 flex gap-1 items-center justify-center bg-gray-100 hover:bg-gray-200 py-2 px-4 flex-1 rounded-lg"
+            :class="[
+                 post.current_user_has_reaction ?
+                 'bg-sky-100 hover:bg-sky-200' :
+                 'bg-gray-100 hover:bg-gray-200'
+            ]"
+            >
+
+            <HandThumbUpIcon class="w-5 h-5"/>
+                <span class="mr-2">({{ post.num_of_reactions}})</span>
+                {{  post.current_user_has_reaction ? 'Unlike' : 'Like' }}
         </button>
         <button class="text-gray-800 flex gap-1 items-center justify-center bg-gray-100 hover:bg-gray-200 py-2 px-4 flex-1 rounded-lg">
             <ChatBubbleLeftRightIcon  class="w-5 h-5 mr-2"/>

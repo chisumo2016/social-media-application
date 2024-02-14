@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class PostReaction extends Model
 {
     use HasFactory;
+    const  UPDATED_AT =  NULL;
+    protected $fillable =[
+        'post_id',
+        'user_id',
+        'type'
+    ];
 }

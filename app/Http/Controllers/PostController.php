@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Enum\PostReactionEnum;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Models\PostAttachment;
+use App\Models\PostReaction;
 use GuzzleHttp\Psr7\UploadedFile;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -143,5 +146,41 @@ class PostController extends Controller
         /*TODO Check if user has permission to download that attachment*/
 
         return response()->download(Storage::disk('public')->path($attachment->path), $attachment->name);
+    }
+
+    public function postReaction(Request $request, Post $post)
+    {
+
+      $userId = Auth::id();
+
+      $reaction =  PostReaction::where('user_id', $userId)->where('post_id',  $post->id)->first();
+
+      if ($reaction){
+
+          /*Delete the reaction*/
+          $hasReaction = false;
+          $reaction->delete();
+
+      }else{
+          /*Create the reaction*/
+          $data = $request->validate([
+              'reaction' => [Rule::enum(PostReactionEnum::class)],
+          ]);
+          $hasReaction = true;
+          PostReaction::create([
+              'post_id' =>   $post->id,
+              'user_id' =>   $userId,
+              'type'   =>    $data['reaction']
+          ]);
+
+          $reactions =  PostReaction::where('post_id',  $post->id)->count();
+
+          return response([
+              'success'  => true,
+              'num_of_reactions'=> $reactions, //no of reactions on the post,
+              'current_user_has_reaction' =>$hasReaction
+          ]);
+      }
+
     }
 }
