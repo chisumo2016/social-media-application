@@ -1,22 +1,40 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref, watch} from 'vue';
 
-const model = defineModel({
-    type: String,
-    required: false,
+const  props = defineProps({
+    modelValue:{
+        type:String,
+        required:false
+    },
     placeholder:String,
-
-});
-
- const props = defineProps({
-     autoResize:{
-         type: Boolean,
-         default:true
-     }
- })
+    autoResize:{
+        type: Boolean,
+        default:true
+    }
+})
+// const model = defineModel({
+//     type: String,
+//     required: false,
+//     placeholder:String,
+//
+// });
+//
+//  const props = defineProps({
+//      autoResize:{
+//          type: Boolean,
+//          default:true
+//      }
+//  })
 
 const autoResizeTextarea = ref()
 const input = ref(null);
+
+watch(() => props.modelValue, ()=>{
+    console.log("changed")
+    setTimeout( () =>{
+        adjustHeight()
+    }, 10)
+})
 
 onMounted(() => {
     if (input.value.hasAttribute('autofocus')) {
@@ -30,13 +48,13 @@ defineExpose({ focus: () => input.value.focus() });
 const  emit = defineEmits(['update:modelValue']);
 function onInputChange($event) {
     emit('update:modelValue', $event.target.value)
-    adjustHeight()
+    //adjustHeight()
 }
 
 function adjustHeight() {
     if (props.autoResize) {
         input.value.style.height = 'auto'; // Reset the height to auto
-        input.value.style.height = input.value.scrollHeight + 'px'; // Set the height to match the content
+        input.value.style.height = (input.value.scrollHeight + 1) +  'px'; // Set the height to match the content
     }
 }
 

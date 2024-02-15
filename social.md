@@ -318,15 +318,41 @@
     app/Http/Resources/PostResource.php
     app/Http/Controllers/HomeController.php
 
-# WRITINNG COMMENTS ON PPOSTS
+# WRITING COMMENTS ON POSTS
+    https://headlessui.com/vue/disclosure
     Writing the  comments on te post
     Comment  sectiion will be collapsable
     Show each post 
-
-
-
-    
-
+    Add the relationship on post model
+    Add the relationship on HomeController
+    Add the relationship on PostResource
+    Open resources/js/Components/app/PostItem.vue
+        .Click the Comment button,show the comment box/input 
+        .Show the  latest post
+        .show number  of comments
+    - Need the name and avatar on section area
+    - web route
+    -  write logic in postController
+    - Able to write subcomment on the post
+    - Create  the commment  resource 
+    - Add relaationshhip on comment model
+    -Display thee comments , last  five comments on the post
+    -Open  the Post model add latest5comments
+    - Pass latest5comments into HomeController
+    -Open the  postResource
+    -Open the  postItems
+    -Add Read More functionality
+        . create a reusable components
+    resources/js/Components/app/IndigoButton.vue
+    resources/js/Components/app/ReadMoreReadLess.vue
+    resources/js/Components/app/PostItem.vue
+    app/Models/Post.php
+    app/Models/Comment.php
+    app/Http/Resources/CommentResource.php
+    app/Http/Resources/PostResource.php
+    app/Http/Resources/UserResource.php
+    app/Http/Controllers/PostController.php
+    app/Http/Controllers/HomeController.php
 
 
 
