@@ -354,10 +354,38 @@
     app/Http/Controllers/PostController.php
     app/Http/Controllers/HomeController.php
 
+# UPDATE AND DELETE OF COMMENTS
+    Update  the comments  by current  authenticated  user .
+    DDelete  the comments 
+    resources/js/Components/app/PostItem.vue
+        . To create the reusable EditDeleteDropdown.vuee component (CHILD)
+        . resources/js/Components/app/EditDeleteDropdown.vue (CHILD)
+            @click="openEditModal" ->  @click="$emit('edit')"
+           @click="deletePost" ->  @click="$emit('edit')"
+        .resources/js/Components/app/PostItem.vue (PARENT)
+    Visible if  i am authenticateed 
+      <EditDeleteDropdown @edit="openEditModal" @delete="deletePost"/>
+    - Post item has multiple comments,start  editing the comment , the input of the 1st will be canncelled.
+        swecond will open
+        logic
+            <div v-if="editingComment && editingComment.id === comment.id" class="ml-12"></div>
+    - Add nee request php artisan make:request UpdateCommentRequest
+    
+             axiosClient.put(route('post.comment.update', editingComment.value.id),{
+                    comment:editingComment.value.comment
+                })
 
+    resources/js/Components/app/PostItem.vue
+    resources/js/Components/app/EditDeleteDropdown.vue
+    app/Http/Requests/UpdateCommentRequest.php
+    app/Http/Controllers/PostController.php
+    routes/web.php
 
-
-
+# COMMENT LIKE / UNLIKE 
+    Convert post reaction table to generate reaction table
+    And implement the polymorphic relationship 
+    From post to comment  into ractions table
+    Implement the like and unlike
 
 
 
