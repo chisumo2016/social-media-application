@@ -1,7 +1,7 @@
 <script setup>
 import { XMarkIcon ,PaperClipIcon ,BookmarkIcon ,ArrowUpLeftIcon} from '@heroicons/vue/20/solid'
 import {useForm, usePage} from '@inertiajs/vue3'
-import {computed, onMounted, onUpdated, reactive, ref, watch} from 'vue'
+import {computed, ref, watch} from 'vue'
 
 import {
     TransitionRoot,
@@ -84,13 +84,12 @@ const showExtensionsText = computed(() =>{
         const file = myFile.file
         let parts = file.name.split('.')
         let  ext = parts.pop().toLowerCase()
-        console.log(ext)
+        //console.log(ext)
         if (!attachmentExtensions.includes(ext)){
             return true
         }
     }
-
-    return  false
+    return  false;
 })
 
 
@@ -99,7 +98,7 @@ const emit = defineEmits(['update:modelValue','hide'])
 
 
 watch(() => props.post,() => {
-    console.log("This is triggered" , props.post)
+   // console.log("This is triggered" , props.post)
         form.body = props.post.body || ''   //form.id = props.post.id // have this inside the url
 })
 

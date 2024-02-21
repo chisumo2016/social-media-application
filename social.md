@@ -399,9 +399,20 @@
         });
 
     php artisan migrate:rollback --step=1
+            app/Http/Enum/PostReactionEnum.php
+            app/Http/Enum/ReactionEnum.php
+            app/Models/PostReaction.php
+             app/Models/Reaction.php
+             database/migrations/2024_02_16_175828_change_post_reactions_table.php
 
 # IMPLEMENT WRITING SUB COMMENTS
-
+        https://github.com/lazychaser/laravel-nestedset
+    Implemment the nested  comments
+    Support  sub children comments
+            1: Nested set model
+            2: create the parent_id in commment table
+     OPTION 2
+    php artisan make:migration add_parent_id__to_comments --table="comments"
 
 
 

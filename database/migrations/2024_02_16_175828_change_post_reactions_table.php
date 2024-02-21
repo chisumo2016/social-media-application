@@ -12,13 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('reactions', function (Blueprint $table) {
-
+        Schema::table('post_reactions', function (Blueprint $table) {
             $table->dropForeign(['post_id']);
             $table->renameColumn('post_id', 'object_id');
         });
 
-        Schema::table('reactions', function (Blueprint $table) {
+        Schema::table('post_reactions', function (Blueprint $table) {
             $table->string('object_type')->after('object_id');
             $table->rename('reactions');
         });
