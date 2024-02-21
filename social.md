@@ -382,14 +382,25 @@
     routes/web.php
 
 # COMMENT LIKE / UNLIKE 
+    https://laravel.com/docs/10.x/eloquent-relationships#one-to-one-polymorphic-model-structure
     Convert post reaction table to generate reaction table
     And implement the polymorphic relationship 
     From post to comment  into ractions table
     Implement the like and unlike
+    Make the generic table insiide the post_reaction or we ccan create the  comment_reactiion table
+    NB: Two possibilities too save the reactions of the comments
+            1: Create the comment_reaction
+            2: Make the post_reaction table  most generic .post_id to object
 
+    Morphic relation can applied 
+    php artisan make:migration change_post_reactions_table
+        Schema::table('post_reactions', function (Blueprint $table ){
+            $table->rename('reactions');
+        });
 
+    php artisan migrate:rollback --step=1
 
-
+# IMPLEMENT WRITING SUB COMMENTS
 
 
 

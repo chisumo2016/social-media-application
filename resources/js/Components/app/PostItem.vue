@@ -2,7 +2,8 @@
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import {PencilIcon, TrashIcon,  EllipsisVerticalIcon} from '@heroicons/vue/20/solid'
-import {ChatBubbleLeftRightIcon, HandThumbUpIcon,ArrowDownTrayIcon} from '@heroicons/vue/24/outline'
+import {ChatBubbleLeftRightIcon, HandThumbUpIcon,ArrowDownTrayIcon, ChatBubbleLeftEllipsisIcon
+} from '@heroicons/vue/24/outline'
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import {router, usePage} from "@inertiajs/vue3";
 import {isImage} from "@/Helpers/helpers.js";
@@ -79,7 +80,7 @@ function startCommentEdit (comment) {
 }
 
 function updateComment() {
-    axiosClient.put(route('post.comment.update', editingComment.value.id),editingComment.value)
+    axiosClient.put(route('comment.update', editingComment.value.id),editingComment.value)
         .then(({data}) =>{
             editingComment.value = null
             console.log(data)
@@ -95,11 +96,23 @@ function deleteComment(comment) {
     if (!window.confirm('Are you sure you want to delete this comment ? ')){
         return false;
     }
-    axiosClient.delete(route('post.comment.delete', comment.id))
+    axiosClient.delete(route('comment.delete', comment.id))
         .then(({data}) =>{
             props.post.comments = props.post.comment.filter(c => c.id != comment.id )
             props.post.num_of_comments--;
 
+        })
+}
+
+function sendCommentReaction(comment) {
+    axiosClient.post(route('comment.reaction',comment.id),{
+        reaction:'like'
+    })
+        .then(({data}) =>{
+            comment.current_user_has_reaction = data.current_user_has_reaction
+            comment.num_of_reactions = data.num_of_reactions
+
+            console.log(data)
         })
 }
 
@@ -211,8 +224,9 @@ function deleteComment(comment) {
                 </div>
             <div>
 
-            <!--    Editing Comment -->
+            <!--    Editing Comment  <pre>{{ comment}}</pre> -->
                 <div v-for="comment of post.comments" :key="comment.id" class="mb-4">
+
                     <div class="flex justify-between gap-2">
                        <div class="flex gap-2">
                            <a href="javascript:void(0)">
@@ -233,23 +247,42 @@ function deleteComment(comment) {
                         <!--  Visible if ur authenticated /owner of comment section -->
                         <EditDeleteDropdown @edit="startCommentEdit(comment)" @delete="deleteComment(comment)" :user="comment.user"/>
                     </div>
+                   <div class="pl-12">
+                       <!--  Visible when editing  comment section -->
+                       <div v-if="editingComment && editingComment.id === comment.id">
+                           <InputTextArea v-model="editingComment.comment" rows="1" class="w-full max-h-[160px] resize-none " placeholder="Enter your comment here"></InputTextArea>
 
-                    <!--  Visible when editing  comment section -->
-                    <div v-if="editingComment && editingComment.id === comment.id" class="ml-12">
-                        <InputTextArea v-model="editingComment.comment" rows="1" class="w-full max-h-[160px] resize-none " placeholder="Enter your comment here"></InputTextArea>
-
-                        <div class="flex justify-end gap-2">
-                           <button @click="editingComment = null" class="rounded-r-none text-indigo-500" >Cancel</button>
-                           <IndigoButton @click="updateComment" class="w-[100px]">Update</IndigoButton>
+                           <div class="flex justify-end gap-2">
+                               <button @click="editingComment = null" class="rounded-r-none text-indigo-500" >Cancel</button>
+                               <IndigoButton @click="updateComment" class="w-[100px]">Update</IndigoButton>
+                           </div>
                        </div>
-                    </div>
 
-                    <!--  Comment List Section   {{ comment.comment }} -->
-                    <ReadMoreReadLess
-                        v-else
-                        content-class="text-sm  flex flex-1 ml-12"
-                        :content="comment.comment"/>
+                       <!--  Comment List Section   {{ comment.comment }} -->
+                       <ReadMoreReadLess v-else content-class="text-sm  flex flex-1" :content="comment.comment"/>
 
+                       <div class="mt-1 flex gap-2">
+                           <button
+                               @click="sendCommentReaction(comment)"
+                               class="flex items-center text-xs text-indigo-500 py-0.5 px-1 rounded-lg"
+                               :class="[
+                                         comment.current_user_has_reaction ?
+                                         'bg-indigo-50 hover:bg-indigo-100' :
+                                         'hover:bg-indigo-50'
+                                    ]">
+                               <HandThumbUpIcon class="w-3 h-3 mr-1"/>
+
+                               <span class="mr-2">{{ comment.num_of_reactions}}</span>
+                               {{  comment.current_user_has_reaction ? 'unlike' : 'like' }}
+
+                           </button>
+
+                           <button class="flex items-center text-xs text-indigo-500 py-0.5 px-1 hover:bg-indigo-100  rounded-lg">
+                               <ChatBubbleLeftEllipsisIcon class="w-3 h-3 mr-1"/>
+                               reply
+                           </button>
+                       </div>
+                   </div>
                 </div>
             </div>
         </DisclosurePanel>

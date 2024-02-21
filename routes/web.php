@@ -37,8 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/post/{post}/reaction',[PostController::class,'postReaction'])->name('post.reaction');
     Route::post('/post/{post}/comment',[PostController::class,'createComment'])->name('post.comment.create');
-    Route::delete('/comment/{comment}',[PostController::class,'deleteComment'])->name('post.comment.delete');
-    Route::put('/comment/{comment}',[PostController::class,'updateComment'])->name('post.comment.update');
+    Route::delete('/comment/{comment}',[PostController::class,'deleteComment'])->name('comment.delete');
+    Route::put('/comment/{comment}',[PostController::class,'updateComment'])->name('comment.update');
+    Route::post('/comment/{comment}/reaction',[PostController::class,'commentReaction'])->name('comment.reaction');
 
 });
 
