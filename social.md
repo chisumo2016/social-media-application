@@ -413,7 +413,18 @@
             2: create the parent_id in commment table
      OPTION 2
     php artisan make:migration add_parent_id__to_comments --table="comments"
+    parentId:{
+        type:String,
+        default: ''
+    }
 
+    
+	modified:   app/Http/Controllers/HomeController.php
+	modified:   app/Http/Controllers/PostController.php
+	modified:   app/Http/Resources/CommentResource.php
+	modified:   app/Models/Comment.php
+	modified:   resources/js/Components/app/PostItem.vue
+	mresources/js/Components/app/CommentList.vue
 
 
 
