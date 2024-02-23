@@ -11,6 +11,7 @@ import axiosClient from "@/axiosClient.js";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
 
 const authUser = usePage().props.auth.user;
+
 const props = defineProps({
     post: Object,
     data: Object, // sub comments
@@ -19,6 +20,8 @@ const props = defineProps({
         default: null
     }
 })
+
+const emit = defineEmits(['commentCreate','commentDelete'])
 
 const newCommentText = ref('')
 
@@ -36,6 +39,7 @@ function createComment() {
                 props.parentComment.num_of_comments++;
             }
             props.post.num_of_comments++;
+            emit('commentCreate',data)
             //console.log(data);
         })
 }
@@ -74,6 +78,7 @@ function deleteComment(comment) {
                 props.parentComment.num_of_comments--;
             }
               props.post.num_of_comments--;
+            emit('commentDelete',comment)
 
         })
 }
@@ -88,6 +93,20 @@ function sendCommentReaction(comment) {
 
             console.log(data)
         })
+}
+
+function onCommentCreate(comment) {
+    if (props.parentComment) {
+        props.parentComment.num_of_comments++
+    }
+    emit('commentCreate', comment)
+}
+
+function onCommentDelete(comment) {
+    if (props.parentComment) {
+        props.parentComment.num_of_comments--
+    }
+    emit('commentDelete', comment)
 }
 </script>
 
@@ -132,6 +151,7 @@ function sendCommentReaction(comment) {
                 <EditDeleteDropdown @edit="startCommentEdit(comment)" @delete="deleteComment(comment)" :user="comment.user"/>
             </div>
             <div class="pl-12">
+
                 <!--  Visible when editing  comment section -->
                 <div v-if="editingComment && editingComment.id === comment.id">
                     <InputTextArea v-model="editingComment.comment" rows="1" class="w-full max-h-[160px] resize-none " placeholder="Enter your comment here"></InputTextArea>
@@ -143,6 +163,7 @@ function sendCommentReaction(comment) {
                 </div>
 
                 <!--  Comment List Section   {{ comment.comment }} -->
+
                 <ReadMoreReadLess v-else content-class="text-sm  flex flex-1" :content="comment.comment"/>
 
                 <Disclosure>
@@ -175,8 +196,10 @@ function sendCommentReaction(comment) {
                         <CommentList
                             :post="post"
                             :data="{comments: comment.comments}"
-                            :parent-comment="comment"/>
-
+                            :parent-comment="comment"
+                            @comment-create="onCommentCreate"
+                            @comment-delete="onCommentDelete"/>
+                                            <!--  onCommentCreate - coming fromm childrren  -->
                     </DisclosurePanel>
                 </Disclosure>
 

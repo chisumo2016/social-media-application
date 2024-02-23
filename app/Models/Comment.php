@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Comment extends Model
 {
     use HasFactory;
+
+    public  array $childComments = [];
+    public  int   $numOfComments = 0;
     protected $fillable = ['post_id','user_id','comment','parent_id'];
 
     public function user():BelongsTo

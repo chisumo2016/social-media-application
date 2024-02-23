@@ -426,6 +426,58 @@
 	modified:   resources/js/Components/app/PostItem.vue
 	mresources/js/Components/app/CommentList.vue
 
+    Problem
+         ->with([
+                'comments' => function ($query) use ($userId)  {
+                    $query
+                        ->whereNull('parent_id')
+                        ->withCount('reactions')
+                        ->withCount('comments')
+                        ->with([
+                            'reactions' => function ($query) use ($userId) {
+                                $query->where('user_id', $userId);
+                            }
+                        ]);
+                },
+                'reactions' => function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+            }])
+    Improve the query of the post 
+        1. SELECT * FROM post
+        2. SELECT * FROM comments WHERE post_id IN (1,2,3..)
+        3. SELECT COUNT(*)  from reactions
+        4. SELECT COUNT(*)  from reactions
+        5. SELECT *   from reactions WHHERE user_id = ? 
+
+
+        private function convertCommentsIntoTree($comments, $parentId = null): array
+        {
+            $commentTree = [];
+    
+            foreach ($comments as $comment) {
+                if ($comment->parent_id === $parentId) { //1st level comment
+                    /*Find all comment which has parentId as $comment->id*/
+                    $children = self::convertCommentsIntoTree($comments, $comment->id);
+                    if ($children) {
+                          $comment->childComments = $children ;
+                          //$comment->setAttribute('children', $children);
+                    }
+                    $commentTree[] = new CommentResource($comment);
+                }
+            }
+    
+            return $commentTree;
+        }
+
+        1 First Level comment(parentId = null ) ccomment with parent id 1
+            2  (Children)  -> count 2
+                8 -> commentTreee[] no comments
+                9 -> commentTreee[]
+            3 -> count 0
+            4 -> count 0
+        5  First Level commennt
+            6
+            7
 
 
 

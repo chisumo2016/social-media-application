@@ -13,22 +13,18 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $userId = Auth::id();
-        $posts = Post::query()
+        $posts = Post::query()  /**SELECT * FROM post*/
+            /** SELECT COUNT(*)  from reactions**/
             ->withCount('reactions')
-            ->withCount('comments')
             ->with([
-                'comments' => function ($query) use ($userId)  {
-                    $query
-                        ->whereNull('parent_id')
-                        ->withCount('reactions')
-                        ->withCount('comments')
-                        ->with([
-                            'reactions' => function ($query) use ($userId) {
-                                $query->where('user_id', $userId);
-                            }
-                        ]);
-                },
+                /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
+                'comments' => function ($query) use ($userId) {
+                    /** SELECT COUNT(*)  from reactions**/
+                    $query ->withCount('reactions');
+                   },
+
                 'reactions' => function ($query) use ($userId) {
+                    /**SELECT *   from reactions WHERE user_id = ? */
                     $query->where('user_id', $userId);
             }])
             ->latest()
