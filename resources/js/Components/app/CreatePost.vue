@@ -1,6 +1,5 @@
 <script setup>
 import {ref} from "vue";
-
 import {usePage} from "@inertiajs/vue3";
 import PostModal from "@/Components/app/PostModal.vue";
 
@@ -36,9 +35,9 @@ function showCreatePostModal() {
     <div class="p-4 bg-white dark:bg-slate-950 rounded-lg border dark:border-slate-900 mb-3">
         <div
             @click="showCreatePostModal"
-            rows="1"
             class="py-2 px-3 border-2 border-gray-200 dark:border-slate-900 text-gray-500 rounded-md mb-3 w-full"
-             >Click here to create new Post</div>
+             >Click here to create new Post
+        </div>
 
         <!--    Post Modal-->
         <PostModal :post="newPost" v-model="showModal"/>
