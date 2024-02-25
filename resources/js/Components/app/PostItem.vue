@@ -99,7 +99,7 @@ function sendReaction() {
         </div>
 
         <!--Comment Section-->
-        <DisclosurePanel class="mt-3">
+        <DisclosurePanel class="mt-3 h-[400px] overflow-auto comment-list">
             <!--Comment Create Section-->
              <CommentList :post="post" :data="{comments: post.comments}"/>
         </DisclosurePanel>

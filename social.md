@@ -479,6 +479,18 @@
             6
             7
 
+        app/Models/Comment.php
+        app/Http/Controllers/HomeController.php
+        app/Http/Controllers/PostController.php
+        app/Http/Resources/CommentResource.php
+        app/Http/Resources/PostResource.php
+        resources/js/Components/app/CommentList.vue
+        resources/js/Components/app/PostItem.vue
+        resources/css/app.css
+
+# LOAD MORE  ON POSTS
+        
+
 
 
       
