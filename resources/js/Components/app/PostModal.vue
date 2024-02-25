@@ -16,6 +16,14 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import {isImage} from "@/Helpers/helpers.js";
 
 
+const props = defineProps({
+    post:{
+        type: Object,
+        required: true
+    },
+    modelValue: Boolean,
+})
+
 const editor = ClassicEditor;
 const editorConfig ={
     toolbar: ['heading' ,'|', 'bold',
@@ -45,15 +53,9 @@ const attachmentErrors = ref([])
 const FormErrors  = ref({})
 //const showExtensionsText = ref(false)
 
-const props = defineProps({
-    post:{
-        type: Object,
-        required: true
-    },
-    modelValue: Boolean,
-})
 
-const attachmentExtensions = usePage().props.attachmentExtensions
+
+const attachmentExtensions = usePage().props.attachmentExtensions;
 //const pageProps = usePage().props;
 //console.log(pageProps)
 
@@ -99,7 +101,7 @@ const emit = defineEmits(['update:modelValue','hide'])
 
 watch(() => props.post,() => {
    // console.log("This is triggered" , props.post)
-        form.body = props.post.body || ''   //form.id = props.post.id // have this inside the url
+        form.body = props.post.body || '' ;  //form.id = props.post.id // have this inside the url
 })
 
 function closeModal() {
@@ -119,8 +121,8 @@ function submit() {
         form.post(route('post.update', props.post.id),{
             preserveScroll: true,
             onSuccess: (resp) =>{
-                console.log("on success", resp)
                 closeModal()
+               // console.log("on success", resp)
                 //show.value = false
                 //resetModal()
                 //form.reset()
@@ -128,7 +130,7 @@ function submit() {
             onError: (errors) =>{
                 //iterate
                 processErrors(errors)
-                console.log(errors)
+                //console.log(errors)
             }
         })
     }else {
@@ -136,7 +138,7 @@ function submit() {
         form.post(route('post.create'),{
             preserveScroll: true,
             onSuccess : (resp) => {
-                console.log("on success", resp)
+               // console.log("on success", resp)
                 closeModal()
                 //show.value = false
                 //form.reset()
@@ -144,7 +146,7 @@ function submit() {
             onError: (errors) =>{
                 //iterate
                 processErrors(errors)
-                console.log(errors)
+                //console.log(errors)
             }
         })
     }
@@ -152,7 +154,7 @@ function submit() {
 
 async function onAttachmentChoose($event) {
     //showExtensionsText.value = false
-   console.log($event.target.files)
+   //console.log($event.target.files)
     for (const  file of  $event.target.files){
 
         const myFile = { //object
@@ -164,7 +166,7 @@ async function onAttachmentChoose($event) {
     }
     //remove the old file fromm input
     $event.target.value = null;
-    console.log(attachmentFiles.value)
+    //console.log(attachmentFiles.value)
 }
 
 async  function readFile(file) {
@@ -290,12 +292,12 @@ function processErrors(errors)
                                    <!-- ATTACHMENT PREVIEW - EDIT POST -->
 
                                     <!--      <pre>{{ form.deleted_file_ids }}</pre>-->
-                                   <div class="grid  gap-3 my-3" :class="[computedAttachments  == 1 ? 'grid-cols-1' : 'grid-cols-2']">
+                                   <div class="grid  gap-3 my-3" :class="[computedAttachments  === 1 ? 'grid-cols-1' : 'grid-cols-2']">
 
                                        <div v-for="(myFile, index ) of computedAttachments">
 
                                            <div  class="group aspect-square bg-blue-100 flex flex-col items-center justify-center text-gray-500 relative border-2"
-                                                 :class="attachmentErrors[ind] ? 'border-red-500' : '' ">
+                                                 :class="attachmentErrors[index] ? 'border-red-500' : '' ">
 
                                                <!--  Download Image    -->
                                                <button class="opacity-0 group-hover:opacity-100 transition-all
@@ -315,7 +317,7 @@ function processErrors(errors)
                                                         @click="undoDelete(myFile)"
                                                         class="w-4 h-4 cursor-pointer"/>
                                                 </div>
-                                               <!--  Remove File Bitton    -->
+                                               <!--  Remove File Button    -->
                                                <button
                                                    @click="removeFile(myFile)"
                                                    class="absolute z-20 right-3 top-3
@@ -334,15 +336,23 @@ function processErrors(errors)
                                                    <small class="text-center">{{ (myFile.file || myFile).name }}</small>
                                                </div>
                                            </div>
-                                             <small class="text-red-500"> {{ attachmentErrors[ind] }}</small>
+                                             <small class="text-red-500"> {{ attachmentErrors[index] }}</small>
                                        </div>
                                    </div>
 <!--                                        <prev>{{ post.attachments }}</prev>-->
                                </div>
 
                                <div class="flex gap-2 py-3 px-4">
-
-
+                                   <button
+                                       type="button"
+                                       class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-full relative"
+                                   >
+                                       <PaperClipIcon class="w-4 h-4 mr-2"/>
+                                       Attach Files
+                                       <input @click.stop @change="onAttachmentChoose"
+                                              type="file" multiple
+                                              class="absolute left-0 top-0 right-0 bottom-0 opacity-0">
+                                   </button>
                                    <button
                                        type="button"
                                        class="flex items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 w-full"
