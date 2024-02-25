@@ -4,7 +4,7 @@ import TextInput from "@/Components/TextInput.vue";
 import FollowingItem from "@/Components/app/FollowingItem.vue";
 import {ref} from "vue";
 
-const searchKeyword = ref();
+const searchKeyword = ref('');
 </script>
 
 <template>
