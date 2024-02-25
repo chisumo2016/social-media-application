@@ -11,13 +11,10 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostAttachment;
 use App\Models\Reaction;
-use GuzzleHttp\Psr7\UploadedFile;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class PostController extends Controller
@@ -28,6 +25,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+
         //dd($request->all());
 
          $data = $request->validated();
