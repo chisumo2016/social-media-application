@@ -5,7 +5,7 @@ import {ref} from "vue";
 import {usePage} from "@inertiajs/vue3";
 import AttachmentPreviewModal from "@/Components/app/AttachmentPreviewModal.vue";
 
-defineProps({
+const props = defineProps({
     posts: Array
 })
 
@@ -25,7 +25,7 @@ function openEditModal(post) {
 }
 
 function openAttachmentPreviewModal(post, index) { //current file I am clicking
-    debugger;
+    //debugger;
     previewAttachmentPost.value = {
         post,
         index
@@ -44,24 +44,25 @@ function onModalHide() { //reset the post
 </script>
 
 <template>
-<div>
-    <div class="overflow-auto">
-        <PostItem v-for="post of posts" :key="post.id" :post="post" @editClick="openEditModal" @attachmentClick="openAttachmentPreviewModal" />
 
-        <!--    Post Modal-->
-        <PostModal :post="editPost" v-model="showEditModal" @hide="onModalHide"/>
+<div class="overflow-auto">
+    <PostItem v-for="post of posts" :key="post.id" :post="post"
+              @editClick="openEditModal"
+              @attachmentClick="openAttachmentPreviewModal" />
 
-        <!--    Preview Attachment Modal-->
-        <prev>{{ previewAttachmentPost}}</prev>
-        <AttachmentPreviewModal
-            :attachments="previewAttachmentPost.post?.attachments || []"
-            v-model="showAttachmentModal"
-            v-model:index="previewAttachmentPost.index"
+    <!--    Post Modal-->
+    <PostModal :post="editPost" v-model="showEditModal" @hide="onModalHide"/>
 
-        />
-    </div>
+    <!--    Preview Attachment Modal-->
 
+    <AttachmentPreviewModal
+        :attachments="previewAttachmentPost.post?.attachments || []"
+        v-model="showAttachmentModal"
+        v-model:index="previewAttachmentPost.index"
+
+    />
 </div>
+
 </template>
 
 <style scoped>
