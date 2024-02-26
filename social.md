@@ -489,8 +489,20 @@
         resources/css/app.css
 
 # LOAD MORE  ON POSTS
-        
+    Add load more functionality on te post
+    Use the axios to make more request
+        resources/js/Components/app/PostList.vued
+        app/Http/Controllers/HomeController.php
 
+# CREATE GROUPS
+    Implent the  creating  groups
+    backend 
+        controller
+        request class
+        resources
+    frond
+        gropu model component
+    
 
 
       
