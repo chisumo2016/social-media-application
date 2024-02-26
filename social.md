@@ -524,8 +524,10 @@
 # RENDER GROUPS ON HOME PAGE
     - Display the groups in the Home Page
     - With status , current authenticated user either is admin/user for this group .
-    - 
-
+    - NB: 
+            WEE HAVE MOVED THE CREATE NEW GROUP INSIDE THE GROUPLISTITEMS.VUE  FROM GROUPLIST.VUE
+                  resources/js/Components/app/GroupList.vue
+                  resources/js/Components/app/GroupListItems.vue
 
       
   
