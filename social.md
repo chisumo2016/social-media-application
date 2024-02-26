@@ -496,13 +496,35 @@
 
 # CREATE GROUPS
     Implent the  creating  groups
+    Inite the  user inside the groups
     backend 
         controller
+            php artisan make:controller GroupController
+            rm -rf app/Http/Controllers/GroupController.php
+            php artisan make:controller GroupController --model=Group --api --requests --resource
+            php artisan make:resource GroupResource
         request class
         resources
-    frond
-        gropu model component
-    
+    frondend
+        group model component
+
+    Open the resources/js/Components/app/GroupList.vue
+    Create the  GroupModal
+    resources/js/Components/app/GroupModal.vue
+    app/Http/Controllers/GroupController.php
+    app/Http/Enum/GroupUserRole.php
+    app/Http/Enum/GroupUserStatus.php
+    app/Http/Requests/StoreGroupRequest.php
+    app/Http/Requests/UpdateGroupRequest.php
+    app/Http/Resources/GroupResource.php
+    app/Models/Group.php
+    app/Models/GroupUser.php
+    routes/web.php
+
+# RENDER GROUPS ON HOME PAGE
+    - Display the groups in the Home Page
+    - With status , current authenticated user either is admin/user for this group .
+    - 
 
 
       
