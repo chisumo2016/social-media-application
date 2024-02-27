@@ -539,4 +539,33 @@
         resources/js/Components/app/GroupListItems.vue
         resources/js/Components/app/GroupModal.vue
         resources/js/Pages/Home.vue
-  
+
+# GROUP PROFILE PAGE
+    - Create  similar url for our groups profile
+        public groups  
+        private  groups  
+    - url will be similar to user profie http://localhost:1234/u/althea-beard
+    Route::get('/g/{group:slug}', [GroupController::class,'profile'])->name('group.profile');
+    - Install the Telescope debugginng tools
+               https://laravel.com/docs/10.x/telescope 
+
+
+    Uncaught Error: Ziggy error: 'group' parameter is required for route 'group.updateImages'.
+        soln imagesForm.post(route('group.updateImages', props.group),{
+
+            app/Http/Controllers/GroupController.php
+            app/Http/Controllers/HomeController.php
+            app/Http/Resources/GroupResource.php
+            app/Models/Group.php
+            app/Providers/AppServiceProvider.php
+            composer.json
+            composer.lock
+             config/app.php
+           resources/js/Components/app/GroupItem.vue
+           resources/js/Pages/Profile/View.vue
+           routes/web.php
+
+# SEND AND ACCEPT INVITATION TO JOIN  GROUP
+    -sending invitation from admin user to regular user to join to our group
+    -Regular user will be able to  join our group
+    - Click thhe link receive
