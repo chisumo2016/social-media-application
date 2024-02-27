@@ -42,7 +42,9 @@ class HomeController extends Controller
 
      /**All the groups currently authenticated**/
         $groups = Group::query()
-            ->select(['groups.*','gu.status', 'gu.role'])
+            ->with('currentUserGroup')
+            ->select(['groups.*'])  //'gu.status', 'gu.role'
+
             ->join('group_users AS gu','gu.group_id','groups.id')
             ->where('gu.user_id', Auth::id())
 //            ->where('gu.status',GroupUserStatus::APPROVED->value)
@@ -50,6 +52,7 @@ class HomeController extends Controller
             ->orderBy('name','desc')
             ->get();
 
+        //dd($groups[0], $groups[0]->currentUserGroup);
 
         return Inertia::render('Home', [
             'posts' => $posts,

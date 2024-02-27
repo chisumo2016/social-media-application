@@ -111,7 +111,7 @@
                     </div>
                     <div class="flex justify-between items-center flex-1 p-4">
                         <h2 class="font-bold text-lg">{{ user.name }}</h2>
-
+                            <!--  Invite User Button          -->
                             <PrimaryButton v-if="authUser">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      class="w-4 h-4 mr-2">
@@ -261,7 +261,7 @@ function submitlCoverImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('profile.updateImages'),{
         onSuccess: (user) => {
-            console.log(user)
+            showNotification.value = true
             cancelCoverImage()
             setInterval(() =>{
             showNotification.value = false
@@ -274,7 +274,7 @@ function submitAvatarImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('profile.updateImages'),{
         onSuccess: (user) => {
-            console.log(user)
+            showNotification.value = true
             cancelAvatarImage()
             setInterval(() =>{
                 showNotification.value = false
