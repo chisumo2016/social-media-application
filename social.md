@@ -569,3 +569,39 @@
     -sending invitation from admin user to regular user to join to our group
     -Regular user will be able to  join our group
     - Click thhe link receive
+    - Open
+        resources/js/Pages/Group/View.vue
+    - Must have two users in DB
+        Mary - dooesnt have any group, although Mary can see the post of Admin
+    - However Admin will be able to invite Mary on specific group, providing email addresss to Mary
+    - Based to that, when I click yhe INVITE USERS button, I will see the Modal
+            either username or email as input field
+            We will show the username or emaiil doesnt exists
+            If it exist we will submit, generate the tocken
+
+    -So in group_users table , generate
+            . token
+            . token_expire_date (one hr from now or 24hrs from now)
+            .User stataus will ppending, Mary will be receveing the notificcation to join the group
+            .Mary will have the link to her email address
+            . mary click the link we gonna handle this.
+            . Provide te token in token_used
+            .Mary click the same token , we gonna show her that the tokenn has been used.
+    Start the  
+        resources/js/Components/app/InviteUserModal.vue
+
+     php artisan make:request InviteUsersRequest
+
+    Email Sending 
+        https://laravel.com/docs/10.x/notifications#mail-notifications
+         php artisan make:notification InvitationInGroup
+         php artisan make:notification InvitationApproved
+
+# JOIN TO GROUPS WITH AUTO APPROVAL
+    Joining the group to a regular user 
+    If the  auto approval is enabled on the group level users will be able to join immediately to group
+        with approval  status.
+    If  the auto apprival is not enabled then the admin user will receive email notificatiion
+    In later lessons we're going  to implement how to  accept those notifications approve the
+        user status or reject it .
+    
