@@ -529,5 +529,14 @@
                   resources/js/Components/app/GroupList.vue
                   resources/js/Components/app/GroupListItems.vue
 
-      
+    - Pass the groups in HomeController  
+    - Accepts the groups via Home.vue page
+        app/Http/Controllers/GroupController.php
+        app/Http/Controllers/HomeController.php
+        app/Http/Resources/GroupResource.php
+        resources/js/Components/app/GroupItem.vue
+        resources/js/Components/app/GroupList.vue
+        resources/js/Components/app/GroupListItems.vue
+        resources/js/Components/app/GroupModal.vue
+        resources/js/Pages/Home.vue
   
