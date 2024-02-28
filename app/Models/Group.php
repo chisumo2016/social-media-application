@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Http\Enum\GroupUserRole;
+use App\Http\Enum\GroupUserStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -39,9 +40,21 @@ class Group extends Model
         return $this->currentUserGroup?->user_id == $userId; //is admin
     }
 
-    public  function adminUsers(): belongsToMany
+    public  function adminUsers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'group_users')
             ->wherePivot('role', GroupUserRole::ADMIN->value);
+    }
+
+    public  function pendingUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'group_users')
+            ->wherePivot('status', GroupUserStatus::PENDING->value);
+    }
+
+    public  function approvedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'group_users')
+            ->wherePivot('status', GroupUserStatus::APPROVED->value);
     }
 }

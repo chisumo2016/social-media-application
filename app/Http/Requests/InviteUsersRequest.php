@@ -44,7 +44,9 @@ class InviteUsersRequest extends FormRequest
                     $fail('User does not exist');
                 }
 
-                $this->groupUser = GroupUser::where('user_id', $this->user->id)->where('group_id', $this->group->id)->first();
+                $this->groupUser = GroupUser::where('user_id', $this->user->id)
+                    ->where('group_id', $this->group->id)
+                    ->first();
 
                 if ($this->groupUser && $this->groupUser->status === GroupUserStatus::APPROVED->value ){
                     $fail('User is already joined to the group');

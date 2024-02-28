@@ -614,7 +614,18 @@
                 modified:   routes/web.php
                 modified:   social.md
 
-               
+        1: REGISTER A  NEW  USER
+            eg xygir@mailinator.com
+            eg admin1234
+        2:  You will gett the notification via email (MAILPIT)
+        3: Confirm the Email Address 
+        4: Redirected  to  Murphy Lee
+        5:try to access Murphy Lee while logged in  http://localhost:1234/g/vue-js
+        6: CLICK BBUTTONN TO REQUEST TO JOIN THE GROUP
+        7: open maipit
+        7: LOG OUT 
+        8: JOIN AS ADMIN  (admin@mailinator.com)
+        10: View Groups 
 
 # APPROVE / REJECT PENDING USERS FROM GROUP
     we're going to implement rendering all the users whhich are approved users of the  group .
@@ -622,4 +633,49 @@
         which request to join to  a group   but  they are not  approved or rejected yet .
     We're going to alsoo implement so that  admin users can apprpove  or reject the status of those
         users
+    
+    Request will be visible if v-if="isCurrentUserAdmin" 
+    Admin will see both Tab 
+        Posts | Users  |  Requests |  Photos
+    It wont be visible for non authenticated user (http://localhost:1234/g/vue-js)
+        Posts | Users  |   Photos
+    User will be visible if has joined the group
+        v-if="isJoinedToGroup" 
+    Define thee  raltionship and use iin  GroupController
+    Change  FollowingItem.vue  to  UserListItem.vue
+
+    Send Notification
+        php artisan make:notification RequestApproved
+
+
+            /**Does  exists*/
+        if ($groupUser) {
+           $groupUser->status = GroupUserStatus::APPROVED->value;
+           $groupUser->save();
+
+           /**Send Notification to user*/
+            $user = $groupUser->user;
+            $user->notify(new  RequestApproved($groupUser->group, $user));
+
+
+            return  back()->with('success', 'User "' . $user->name . '" was approved'  );
+        }
+
+        return  back();
+
+        app/Notifications/RequestApproved.php
+        modified:   app/Http/Controllers/GroupController.php
+        modified:   app/Http/Enum/GroupUserStatus.php
+        modified:   app/Http/Requests/InviteUsersRequest.php
+        modified:   app/Http/Resources/UserResource.php
+        modified:   app/Models/Group.php
+        modified:   resources/js/Components/app/FollowingListItems.vue
+        modified:   resources/js/Components/app/UserListItem.vue
+        modified:   resources/js/Pages/Group/View.vue
+        modified:   routes/web.php
+        modified:   social.md
+
+# CHANGE USER ROLE INSIDE GROUP
+    We're going to implemnent updating the  group detaiils  and also changing regular roles from admin to  user or vise versa
+     from admin users
     
