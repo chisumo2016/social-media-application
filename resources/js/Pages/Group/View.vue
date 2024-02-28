@@ -101,6 +101,14 @@ function submitThumbnailImage() {
     })
 }
 
+function joinToGroup() {
+    const  form = useForm({})
+
+    form.post(route('group.join', props.group.slug),{
+        preserveScroll: true
+    })
+}
+
 
 </script>
 
@@ -220,18 +228,30 @@ function submitThumbnailImage() {
                     <div class="flex justify-between items-center flex-1 p-4">
                         <h2 class="font-bold text-lg">{{ group.name }}</h2>
 
+
+                        <PrimaryButton v-if="!authUser" :href="route('login')">
+                            Login to join this group
+                        </PrimaryButton>
                         <!--  Invite User Button          -->
                         <PrimaryButton
                             @click="showInviteUserModal = true"
-                            v-if="isCurrentUserAdmin">Invite Users</PrimaryButton>
+                            v-if="isCurrentUserAdmin">
+                                Invite Users
+                        </PrimaryButton>
 
                         <!--  Join To Group -->
                         <PrimaryButton
-
-                            v-if="!group.role && group.auto_approval">Join  to Group</PrimaryButton>
+                            v-if="authUser && !group.role && group.auto_approval"
+                            @click="joinToGroup">
+                            Join  to Group
+                        </PrimaryButton>
 
                         <!--  Request to Join  -->
-                        <PrimaryButton v-if="!group.role && !group.auto_approval"> Request to Join</PrimaryButton>
+                        <PrimaryButton
+                            @click="joinToGroup"
+                            v-if="authUser && !group.role && !group.auto_approval">
+                            Request to Join
+                        </PrimaryButton>
 
                     </div>
                 </div>

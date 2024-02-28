@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/group/update-images/{group:slug}', [GroupController::class, 'updateImage'])->name('group.updateImages');
     Route::post('/group/invite/{group:slug}',        [GroupController::class, 'inviteUser'])->name('group.inviteUser');
+    Route::post('/group/join/{group:slug}',        [GroupController::class, 'join'])->name('group.join');
 
 });
 

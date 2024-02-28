@@ -604,4 +604,22 @@
     If  the auto apprival is not enabled then the admin user will receive email notificatiion
     In later lessons we're going  to implement how to  accept those notifications approve the
         user status or reject it .
+    Create notifiication
+            php artisan make:notification RequestToJoinGroup
+                     app/Notifications/RequestToJoinGroup.php
+                 modified:   app/Http/Controllers/GroupController.php
+                modified:   app/Models/Group.php
+                modified:   resources/js/Components/PrimaryButton.vue
+                modified:   resources/js/Pages/Group/View.vue
+                modified:   routes/web.php
+                modified:   social.md
+
+               
+
+# APPROVE / REJECT PENDING USERS FROM GROUP
+    we're going to implement rendering all the users whhich are approved users of the  group .
+    we're gooing  to also create separate tabin which w're going to render all pending users
+        which request to join to  a group   but  they are not  approved or rejected yet .
+    We're going to alsoo implement so that  admin users can apprpove  or reject the status of those
+        users
     
