@@ -695,3 +695,23 @@
 
     app/Http/Resources/GroupUserResource.php
 	app/Notifications/RoleChanged.php
+    
+    Add the About  Tab on seection of the group
+    Three field inside the groupModal
+    Create the reusable component callled GroupForm.vue  (child)
+    Attach too GroupModal(parent)
+    Open Group/View.vue in About Tab
+
+    Modification 
+    modified:   app/Http/Controllers/GroupController.php
+	modified:   app/Http/Requests/UpdateGroupRequest.php
+	modified:   resources/js/Components/app/GroupModal.vue
+	modified:   resources/js/Pages/Group/View.vue
+	modified:   routes/web.php
+	modified:   social.md
+
+    resources/js/Components/app/GroupForm.vue
+
+# CREATE AND LOAD GROUP POST
+    We're going  to implement  creating and  renderiing posts inside  the groups profile page.
+        

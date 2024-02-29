@@ -14,6 +14,7 @@ import TextInput from "@/Components/TextInput.vue";
 import Checkbox from "@/Components/Checkbox.vue";
 import InputTextArea from "@/Components/InputTextArea.vue";
 import axiosClient from "@/axiosClient.js";
+import GroupForm from "@/Components/app/GroupForm.vue";
 
 
 const props = defineProps({
@@ -117,28 +118,7 @@ function submit() {
                                <div class="p-4">
 
                                 <!-- Content Goes Here   <pre>{{ form}}</pre>     -->
-                               <div class="mb-3">
-                                   <label for=""> Group Name</label>
-                                   <TextInput
-                                       type="email"
-                                       class="mt-1 block w-full"
-                                       v-model="form.name"
-                                       required
-                                       autofocus
-                                   />
-                               </div>
-                                <div class="mb-3">
-                                    <label >
-
-                                        <Checkbox name="auto_approval" v-model:checked="form.auto_approval" />
-                                        Enable Auto Approval
-
-                                    </label>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="">About Group</label>
-                                    <InputTextArea v-model="form.about" class="w-full"/>
-                                </div>
+                                 <GroupForm :form="form"/>
 
                                </div>
 

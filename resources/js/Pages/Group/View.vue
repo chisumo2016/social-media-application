@@ -12,6 +12,7 @@ import { useForm } from '@inertiajs/vue3'
 import InviteUserModal from "@/Components/app/InviteUserModal.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
 import TextInput from "@/Components/TextInput.vue";
+import GroupForm from "@/Components/app/GroupForm.vue";
 
 
 
@@ -39,10 +40,17 @@ const props = defineProps({
     requests: Array,
 });
 
+const aboutForm = useForm({
+    name: usePage(). props.group.name,
+    auto_approval: !!parseInt(usePage().props.group.auto_approval) ,
+    about : usePage().props.group.about
+})
+
 const imagesForm = useForm({
     thumbnail: null,
     cover: null,
 })
+
 
 
 function onCoverChange(event) {
@@ -144,6 +152,12 @@ function onRoleChange(user, role) {
         role
     })
     form.post(route('group.changeRole', props.group.slug), {
+        preserveScroll: true,
+    })
+}
+
+function updateGroup() {
+    aboutForm.put(route('group.update', props.group.slug), {
         preserveScroll: true,
     })
 }
@@ -316,6 +330,10 @@ function onRoleChange(user, role) {
                         <Tab v-slot="{ selected }" as="template">
                             <TablItem text="Photos" :selected="selected"/>
                         </Tab>
+
+                        <Tab v-if="isCurrentUserAdmin" v-slot="{ selected }" as="template">
+                            <TablItem text="About" :selected="selected"/>
+                        </Tab>
                     </TabList>
 
                     <TabPanels class="mt-2">
@@ -356,6 +374,12 @@ function onRoleChange(user, role) {
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
                             Photos
+                        </TabPanel>
+                        <TabPanel class="bg-white p-3 shadow">
+                           <GroupForm :form="aboutForm"/>
+                            <PrimaryButton @click="updateGroup">
+                                Submit
+                            </PrimaryButton>
                         </TabPanel>
                     </TabPanels>
                 </TabGroup>
