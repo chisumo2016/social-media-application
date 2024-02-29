@@ -260,6 +260,7 @@ function cancelAvatarImage() {
 function submitlCoverImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('profile.updateImages'),{
+        preserveScroll: true,
         onSuccess: (user) => {
             showNotification.value = true
             cancelCoverImage()
@@ -273,6 +274,7 @@ function submitlCoverImage() {
 function submitAvatarImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('profile.updateImages'),{
+        preserveScroll: true,
         onSuccess: (user) => {
             showNotification.value = true
             cancelAvatarImage()

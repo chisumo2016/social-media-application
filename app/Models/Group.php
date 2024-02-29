@@ -32,13 +32,27 @@ class Group extends Model
 
     public  function currentUserGroup(): HasOne
     {
+        // Return the authenticated user status/role
         return $this->HasOne(GroupUser::class)->where('user_id', Auth::id());
     }
 
     public function isAdmin($userId):bool
     {
-        return $this->currentUserGroup?->user_id == $userId; //is admin
+       return GroupUser::query()
+            ->where('user_id', $userId)
+            ->where('group_id',$this->id)
+            ->where('role', GroupUserRole::ADMIN->value)
+            ->exists(); //if exist , the user is admin
+
+//        return $this->currentUserGroup?->user_id == $userId
+//            &&  $this->currentUserGroup?->role === GroupUserRole::ADMIN->value; //is admin
     }
+
+    public function isOwner($userId):bool
+    {
+        return  $this->user_id == $userId;
+    }
+
 
     public  function adminUsers(): BelongsToMany
     {

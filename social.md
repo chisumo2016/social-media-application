@@ -674,8 +674,24 @@
         modified:   resources/js/Pages/Group/View.vue
         modified:   routes/web.php
         modified:   social.md
+        http://localhost:1234/g/vue-js
 
 # CHANGE USER ROLE INSIDE GROUP
-    We're going to implemnent updating the  group detaiils  and also changing regular roles from admin to  user or vise versa
-     from admin users
-    
+    We're going to implemnent updating the  group details  and also changing regular roles from admin to  user 
+     or vise versa from admin users
+        $requests   = $group->approvedUsers()->orderBy('name')->get(); //approvedUsers
+        Select the role
+    - Create GroupUserResource
+        php artisan make:resource  GroupUserResource
+        php artisan make:notification RoleChanged
+
+    Modification
+    modified:   app/Http/Controllers/GroupController.php
+	modified:   app/Models/Group.php
+	modified:   resources/js/Components/app/UserListItem.vue
+	modified:   resources/js/Pages/Group/View.vue
+	modified:   resources/js/Pages/Profile/View.vue
+	modified:   routes/web.php
+
+    app/Http/Resources/GroupUserResource.php
+	app/Notifications/RoleChanged.php

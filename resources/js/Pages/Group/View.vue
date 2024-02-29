@@ -84,6 +84,7 @@ function cancelThumbnailImage() {
 function submitlCoverImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('group.updateImages',props.group.slug),{
+        preserveScroll: true,
         onSuccess: () => {
             showNotification.value = true
             cancelCoverImage()
@@ -97,6 +98,7 @@ function submitlCoverImage() {
 function submitThumbnailImage() {
     console.log(imagesForm.cover); //send to backend
     imagesForm.post(route('group.updateImages', props.group.slug),{
+        preserveScroll: true,
         onSuccess: () => {
             showNotification.value = true
             cancelThumbnailImage()
@@ -135,7 +137,16 @@ function rejectUser() {
     })
 }
 
-
+function onRoleChange(user, role) {
+    console.log(user, role)
+    const  form = useForm({
+        user_id: user.id,
+        role
+    })
+    form.post(route('group.changeRole', props.group.slug), {
+        preserveScroll: true,
+    })
+}
 </script>
 
 <template>
@@ -322,7 +333,9 @@ function rejectUser() {
                                 <UserListItem v-for="user of users"
                                               :user="user"
                                               :key="user.id"
-
+                                              :show-role-dropdown="isCurrentUserAdmin"
+                                              @role-change="onRoleChange"
+                                              :disable-role-dropdown="group.user_id === user.id"
                                               class="shadow rounded-lg" />
                             </div>
                             <UserListItem v-for="user of users" :user="user" :key="user.id"/>
