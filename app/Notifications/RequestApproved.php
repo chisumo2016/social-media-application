@@ -42,7 +42,7 @@ class RequestApproved extends Notification
         return (new MailMessage)
             ->subject('Request was ' .$action)
                     ->line('Your request  to join tto group "'.$this->group->name.'" has been '. $action)
-                    ->action('Open Group', url(route('profile', $this->group)))
+                    ->action('Open Group', url(route('group.profile', $this->group)))
                     ->line('Thank you for using our application!');
     }
 

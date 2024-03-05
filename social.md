@@ -714,4 +714,66 @@
 
 # CREATE AND LOAD GROUP POST
     We're going  to implement  creating and  renderiing posts inside  the groups profile page.
+    Load post to a group in GroupController
+        . Refactor the 
+                 Post::query()  /**SELECT * FROM post*/
+        /** SELECT COUNT(*)  from reactions**/
+        ->withCount('reactions')
+            ->with([
+                /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
+                'comments' => function ($query)  {
+                    /** SELECT COUNT(*)  from reactions**/
+                    $query ->withCount('reactions');
+                },
+
+                'reactions' => function ($query) use ($userId) {
+                    /**SELECT *   from reactions WHERE user_id = ? */
+                    $query->where('user_id', $userId);
+                }]);
+
+        $posts = Post::query()  /**SELECT * FROM post*/
+        /** SELECT COUNT(*)  from reactions**/
+        ->withCount('reactions')
+            ->with([
+                /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
+                'comments' => function ($query)  {
+                    /** SELECT COUNT(*)  from reactions**/
+                    $query ->withCount('reactions');
+                },
+
+                'reactions' => function ($query) use ($userId) {
+                    /**SELECT *   from reactions WHERE user_id = ? (current user)*/
+                    $query->where('user_id', $userId);
+                }])
+                ->where('group_id', $group->id)
+                 ->latest()
+                ->paginate(10);
+
+    - Post will displayed inn Group/View Tab
+    - chhange anchor tag innto Lin iin PostUserHeader
         
+        modified:   app/Http/Controllers/GroupController.php
+        modified:   app/Http/Controllers/HomeController.php
+        modified:   app/Http/Controllers/PostController.php
+        modified:   app/Http/Requests/StorePostRequest.php
+        modified:   app/Http/Resources/CommentResource.php
+        modified:   app/Http/Resources/GroupUserResource.php
+        modified:   app/Http/Resources/UserResource.php
+        modified:   app/Models/Group.php
+        modified:   app/Models/Post.php
+        modified:   app/Notifications/RequestApproved.php
+        modified:   resources/js/Components/app/CommentList.vue
+        modified:   resources/js/Components/app/CreatePost.vue
+        modified:   resources/js/Components/app/PostItem.vue
+        modified:   resources/js/Components/app/PostList.vue
+        modified:   resources/js/Components/app/PostModal.vue
+        modified:   resources/js/Components/app/PostUserHeader.vue
+        modified:   resources/js/Components/app/UserListItem.vue
+        modified:   resources/js/Pages/Group/View.vue
+
+
+# DELETING  POSTS AND COMMENTS BY ADMIN USERS
+    W're going to iimplement functionality that admin users willl be able to delete post by  regular users
+     inside the group and we're going to also do that  the owner of the post will be able to delete
+     comments made by  regular users on their own posts if they decide to delete that.
+      

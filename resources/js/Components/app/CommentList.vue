@@ -5,10 +5,11 @@ import InputTextArea from "@/Components/InputTextArea.vue";
 import {ChatBubbleLeftEllipsisIcon, HandThumbUpIcon} from "@heroicons/vue/24/outline/index.js";
 import IndigoButton from "@/Components/app/IndigoButton.vue";
 import ReadMoreReadLess from "@/Components/app/ReadMoreReadLess.vue";
-import {usePage} from "@inertiajs/vue3";
+import {usePage ,Link} from "@inertiajs/vue3";
 import {ref} from "vue";
 import axiosClient from "@/axiosClient.js";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
+
 
 const authUser = usePage().props.auth.user;
 
@@ -112,12 +113,13 @@ function onCommentDelete(comment) {
 
 <template>
     <div class="flex gap-2 mb-3">
-        <a href="javascript:void(0)">
+
+        <Link :href="route('profile', authUser.username)">
 
             <img :src="authUser.avatar_url" alt=""
                  class="w-[40px] rounded-full border border-2  transition-all hover:border-blue-500">
 
-        </a>
+        </Link>
 
         <!--  Comment Text Area Component Section   -->
         <div class="flex flex-1">

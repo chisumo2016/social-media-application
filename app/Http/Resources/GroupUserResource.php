@@ -23,7 +23,7 @@ class GroupUserResource extends JsonResource
             'group_id' => $this->group_id,
             "username" => $this->username,
 
-            "avatar_url" =>$this->avatar_path ? Storage::url($this->avatar_path) : null,    //$this->avatar_path
+            "avatar_url" =>$this->avatar_path ? Storage::url($this->avatar_path) : '/image/default_cover.webp',    //$this->avatar_path
     ];
     }
 }

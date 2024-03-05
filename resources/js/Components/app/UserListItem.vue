@@ -27,7 +27,7 @@ defineEmits(['approve','reject', 'roleChange'])
         <div  class="flex items-center gap-2 py-2 px-2">
 
             <Link  :href="route('profile', user.username)">
-                <img :src="user.avatar_url || '/image/default_cover.webp'" alt="" class="w-[32px] rounded-full">
+                <img :src="user.avatar_url" alt="" class="w-[32px] rounded-full">
             </Link>
 
             <div class="flex justify-between flex-1">

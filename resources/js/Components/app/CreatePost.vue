@@ -13,6 +13,13 @@ const   newPost = ref({
     user: authUser
 });
 
+defineProps({
+    group:{
+        type:Object,
+        default:null
+    }
+})
+
 // const  newPostForm = useForm({
 //     body: ''
 // })
@@ -40,7 +47,7 @@ function showCreatePostModal() {
         </div>
 
         <!--    Post Modal-->
-        <PostModal :post="newPost" v-model="showModal"/>
+        <PostModal :post="newPost" :group="group" v-model="showModal"/>
     </div>
 </template>
 

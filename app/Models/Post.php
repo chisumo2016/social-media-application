@@ -17,6 +17,7 @@ class Post extends Model
     protected  $fillable = [
         'body',
         'user_id',
+        'group_id',
     ];
 
     public function user(): BelongsTo
@@ -47,6 +48,24 @@ class Post extends Model
     public  function latest5comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public static function postsForTimeLine($userId): \Illuminate\Database\Eloquent\Builder
+    {
+        return Post::query()  /**SELECT * FROM post*/
+        /** SELECT COUNT(*)  from reactions**/
+        ->withCount('reactions')
+            ->with([
+                /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
+                'comments' => function ($query)  {
+                    /** SELECT COUNT(*)  from reactions**/
+                    $query ->withCount('reactions');
+                },
+
+                'reactions' => function ($query) use ($userId) {
+                    /**SELECT *   from reactions WHERE user_id = ? (current user)*/
+                    $query->where('user_id', $userId);
+                }])->latest();
     }
 }
 //->latest()->limit(5)

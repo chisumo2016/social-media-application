@@ -9,9 +9,11 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupUserResource;
+use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use App\Models\Group;
 use App\Models\GroupUser;
+use App\Models\Post;
 use App\Models\User;
 use App\Notifications\InvitationApproved;
 use App\Notifications\InvitationInGroup;
@@ -34,9 +36,35 @@ class GroupController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function profile(Group $group)
+    public function profile(Request $request, Group $group)
     {
         $group->load('currentUserGroup');
+
+        $userId = Auth::id();
+
+        if ($group->hasApprovedUser($userId)){
+            $posts = Post::postsForTimeLine($userId)
+                ->where('group_id', $group->id)
+                ->paginate(10);
+            $posts = PostResource::collection($posts);
+        }else{
+            $posts = null;
+
+            return Inertia::render('Group/View', [
+
+                'success' => session('success'),
+                'group' => new GroupResource($group),
+                'posts'  => null, //PostResource::collection($posts),  //will return with paginatted data
+                'users' =>[],
+                'requests' => [],
+
+            ]);
+        }
+
+
+        if ($request->wantsJson()){
+            return  PostResource::collection($posts);
+        }
 
         $users = User::query()  //$group->approvedUsers()
             ->select(['users.*', 'gu.role', 'gu.status', 'gu.group_id'])
@@ -52,8 +80,10 @@ class GroupController extends Controller
 
             'success' => session('success'),
             'group' => new GroupResource($group),
+            'posts'  => $posts, //PostResource::collection($posts),  //will return with paginatted data
             'users' =>GroupUserResource::collection($users), //UserResource
             'requests' => UserResource::collection($requests),
+
 
         ]);
     }
@@ -275,7 +305,7 @@ class GroupController extends Controller
         /**Does  exists*/
         if ($groupUser) {
             $approved = false;
-            if ($data['action' === 'approve']){
+            if ($data['action'] === 'approve'){
                 $approved = true;
                 $groupUser->status = GroupUserStatus::APPROVED->value;
             }else{
@@ -332,6 +362,8 @@ class GroupController extends Controller
             return  back();
         }
     }
+
+
 }
 
 //return \inertia('Error',[

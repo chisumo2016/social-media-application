@@ -24,12 +24,12 @@ class CommentResource extends JsonResource
             'num_of_comments' =>$this->numOfComments,  //$this->comments_count,
              'current_user_has_reaction' =>$this->reactions->count() > 0,
              'comments' => $this->childComments, //each comment  has childComments
-            //'comments' => CommentResource::collection($this->comments), //each commentt  has childComments
+            //'comments' => CommentResource::collection($this->comments), //each comment  has childComments
             'user'        => [
                 "id"       => $this->user->id,
                 "name"     => $this->user->name,
                 "username" => $this->user->username,
-                "avatar_url" =>Storage::url($this->user->avatar_path),    //$this->avatar_path
+                "avatar_url" => $this->user->avatar_path ? Storage::url($this->user->avatar_path) : '/image/default_cover.webp',    //$this->avatar_path
 
             ] // new UserResource($this->user), //user relation on the comments
         ];

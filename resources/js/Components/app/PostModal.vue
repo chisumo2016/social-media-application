@@ -22,6 +22,10 @@ const props = defineProps({
         required: true
     },
     modelValue: Boolean,
+    group:{
+        type:Object,
+        default:null
+    }
 })
 
 const editor = ClassicEditor;
@@ -68,7 +72,8 @@ const form  = useForm({
     body: '',
     attachments:[], //send to  the server
     deleted_file_ids:[],
-    _method: 'POST'
+    _method: 'POST',
+    group_id : null
 
 })
 
@@ -113,6 +118,9 @@ function closeModal() {
 }
 
 function submit() {
+    if (props.group){
+        form.group_id = props.group.id
+    }
     form.attachments = attachmentFiles.value.map(myFile  => myFile.file)
 
     /*Update Post*/
@@ -121,6 +129,7 @@ function submit() {
         form.post(route('post.update', props.post.id),{
             preserveScroll: true,
             onSuccess: (resp) =>{
+                console.log(resp)
                 closeModal()
                // console.log("on success", resp)
                 //show.value = false
@@ -274,6 +283,11 @@ function processErrors(errors)
                                <div class="p-4">
                                 <!--  Content       -->
                                    <PostUserHeader :post="post" :show-time="false" class="mb-4"/>
+
+                                   <!--  Errors    -->
+                                   <div v-if="FormErrors.group_id" class="bg-red-400 py-2 px-3 rounded text-white mb-3">
+                                       {{ FormErrors.group_id}}
+                                   </div>
 
                                 <!-- CKEDITOR  -->
                                    <ckeditor :editor="editor" v-model="form.body" :config="editorConfig"></ckeditor>
