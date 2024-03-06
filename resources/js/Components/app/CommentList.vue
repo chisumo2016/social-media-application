@@ -150,7 +150,12 @@ function onCommentDelete(comment) {
                 </div>
 
                 <!--  Visible if ur authenticated /owner of comment section -->
-                <EditDeleteDropdown @edit="startCommentEdit(comment)" @delete="deleteComment(comment)" :user="comment.user"/>
+                <EditDeleteDropdown
+                    @edit="startCommentEdit(comment)"
+                    @delete="deleteComment(comment)"
+                    :user="comment.user"
+                    :post="post"
+                    :comment="comment"/>
             </div>
             <div class="pl-12">
 

@@ -777,3 +777,22 @@
      inside the group and we're going to also do that  the owner of the post will be able to delete
      comments made by  regular users on their own posts if they decide to delete that.
       
+    - Admin will be able to delete the post made by other user
+    - Admin will be able to delete the comments made by other user
+    -  Create a notification
+             php artisan make:notification CommentDeleted
+             php artisan make:notification PostDeleted
+            
+        app/Notifications/CommentDeleted.php
+	    app/Notifications/PostDeleted.php
+
+        modified:   app/Http/Controllers/PostController.php
+        modified:   app/Http/Resources/PostResource.php
+        modified:   app/Models/Comment.php
+        modified:   app/Models/Post.php
+        modified:   resources/js/Components/app/CommentList.vue
+        modified:   resources/js/Components/app/EditDeleteDropdown.vue
+        modified:   resources/js/Components/app/PostItem.vue
+        modified:   social.md
+
+# REMOVE USERS FROM GROUPS

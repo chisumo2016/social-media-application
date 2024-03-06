@@ -12,6 +12,8 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostAttachment;
 use App\Models\Reaction;
+use App\Notifications\CommentDeleted;
+use App\Notifications\PostDeleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -133,15 +135,22 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
 
         $id = Auth::id();
-        if ($post->user_id != $id){
-            return response(" You don't have permission to delete this post",403);
-        }
-        $post->delete();
 
-        return  back();
+        if ($post->isOwner($id) || $post->group && $post->group->isAdmin($id)){
+           // dd($post , $post->isOwner($id));
+
+            $post->delete();
+
+            /*Notification **/
+            if(!$post->isOwner($id)){
+                $post->user->notify(new PostDeleted($post->group));
+            }
+
+            return  back();
+        }
+            return response(" You don't have permission to delete this post",403);
     }
 
     public function downloadAttachment(PostAttachment $attachment)
@@ -226,14 +235,28 @@ class PostController extends Controller
         return new CommentResource($comment) ;
     }
 
+    /**$comment->isOwner($id) || $post->isOwner($id)  ||  $post->group && $post->group->isAdmin($id) **/
     public function deleteComment(Comment $comment)
     {
-        if ($comment->user_id != Auth::id()){
-            return response("You don't have permission to delete this comment", 403);
-        }
+        $post = $comment->post;
 
-        $comment->delete();
-        return  response('', 204);
+        $id = Auth::id();
+        if ($comment->isOwner($id) || $post->isOwner($id) ){
+            $comment->delete();
+
+            /*Notification  to user**/
+            if(!$comment->isOwner($id)){
+                $comment->user->notify(new CommentDeleted($comment, $post));
+            }
+            return  response('', 204);
+        }
+        return response("You don't have permission to delete this comment", 403);
+
+       /* if ($comment->user_id != Auth::id()){
+            return response("You don't have permission to delete this comment", 403);
+        }     }
+
+        return  response('', 204);*/
     }
 
     public function commentReaction(Request $request, Comment $comment)

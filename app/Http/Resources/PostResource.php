@@ -22,7 +22,7 @@ class PostResource extends JsonResource
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
             'user' => new UserResource($this->user), //relationship
-            'group' => $this->group ,//relationship
+            'group' =>  new GroupResource($this->group) ,//$this->group ,//relationship
             'attachments' => PostAttachmentResource::collection($this->attachments) ,
             //'attachments' => $this->attachments ,//relationship
             'num_of_reactions' =>$this->reactions_count,

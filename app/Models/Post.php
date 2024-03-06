@@ -67,5 +67,10 @@ class Post extends Model
                     $query->where('user_id', $userId);
                 }])->latest();
     }
+
+    public function isOwner($userId)
+    {
+        return $this->user_id == $userId;
+    }
 }
 //->latest()->limit(5)

@@ -56,7 +56,8 @@ function sendReaction() {
        <PostUserHeader :post="post"/>
 
        <!--  Drop down Menu for Edit/Delete   -->
-       <EditDeleteDropdown @edit="openEditModal" @delete="deletePost" :user="post.user"/>
+       <EditDeleteDropdown @edit="openEditModal" @delete="deletePost" :user="post.user" :post="post"/>
+
     </div>
 
 <!--    Read More Section    -->
