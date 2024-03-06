@@ -20,6 +20,7 @@ use App\Notifications\InvitationInGroup;
 use App\Notifications\RequestApproved;
 use App\Notifications\RequestToJoinGroup;
 use App\Notifications\RoleChanged;
+use App\Notifications\UserRemovedFromGroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -359,8 +360,47 @@ class GroupController extends Controller
             $groupUser->user->notify(new  RoleChanged($group,  $data['role']));
 
 
-            return  back();
+            //return  back();
         }
+
+        return  back();
+    }
+
+    public function removeUser(Request $request,  Group $group)
+    {
+        /**Check the current  user if is the admin of this group*/
+        if (!$group->isAdmin(Auth::id())){ //dont permission to approve user
+            return response("You don't have permission to perform this action", 403);
+        }
+
+        $data = $request->validate([
+            'user_id' => ['required'],
+        ]);
+
+        /**Owner of the group*/
+        $user_id = $data['user_id'];
+
+        //dd($user_id , $group->user_id);
+        if ($group->isOwner($user_id) ){
+            return  response("The owner of the group cannot be removed", 403);
+        }
+
+        /**Selecting  the pending Invitation*/
+        $groupUser = GroupUser::where('user_id', $user_id) //Auth::id()
+        ->where('group_id', $group->id)
+            ->first();
+
+
+        /**Does  exists*/
+        if ($groupUser) {
+            $user = $groupUser->user;
+            $groupUser->delete();
+
+            /**Send Notification to the user that his/her role was changed*/
+            $user->notify(new  UserRemovedFromGroup($group));
+
+        }
+        return  back();
     }
 
 

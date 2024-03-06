@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/group/change-role/{group:slug}',        [GroupController::class, 'changeRole'])->name('group.changeRole');
     Route::put('/group/{group:slug}', [GroupController::class,'update'])->name('group.update');
 
+    Route::delete('/remove-user/{group:slug}',        [GroupController::class, 'removeUser'])->name('group.removeUser');
 });
 
 require __DIR__.'/auth.php';

@@ -796,3 +796,15 @@
         modified:   social.md
 
 # REMOVE USERS FROM GROUPS
+    Allow admin users to remove another  users from the group .
+    php artisan make:notification UserRemovedFromGroup
+        app/Notifications/UserRemovedFromGroup.php
+
+        modified:   app/Http/Controllers/GroupController.php
+        modified:   resources/js/Components/app/UserListItem.vue
+        modified:   resources/js/Pages/Group/View.vue
+        modified:   routes/web.php
+        modified:   social.md
+
+# SEND EMAIL NOTIFICATIONS ON VARIOUS ACTIONS
+    
