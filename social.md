@@ -807,4 +807,20 @@
         modified:   social.md
 
 # SEND EMAIL NOTIFICATIONS ON VARIOUS ACTIONS
+    We're gooing to implement functionality to send mail notifications 
+            When post is created
+            When comment is created
+            When post is liked
+            When comment is liked to the corresppondding users.
+        php artisan make:notification PostCreated
+        php artisan make:notification CommentCreated
+        php artisan make:notification ReactionAddedOnPost
+        php artisan make:notification ReactionAddedOnComment
+
+# CREATE DEDICATED POST PAGE 
+     We're gooing to implement dedicated post page , that's goingg to be usefuul if you want to
+      share thhe specific post to somebody else   now eachh ppost willl have its own URL you can
+      copy that and sharing that url,pposted to another social media.
+
+    
     
