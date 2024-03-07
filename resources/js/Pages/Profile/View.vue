@@ -1,3 +1,136 @@
+<script setup>
+import {computed, ref, watch} from 'vue'
+import { XMarkIcon, CheckCircleIcon ,CameraIcon } from '@heroicons/vue/24/solid'
+import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
+
+import {usePage, useForm} from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import TablItem from "@/Pages/Profile/Partials/TabItem.vue";
+import Edit from "@/Pages/Profile/Edit.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import DangerButton from "@/Components/DangerButton.vue";
+
+
+
+
+
+const coverImageSrc = ref('')
+const avatarImageSrc = ref('')
+const showNotification = ref(true)
+const authUser = usePage().props.auth.user;
+
+const imagesForm = useForm({
+    avatar: null,
+    cover: null,
+})
+
+const props = defineProps({
+    errors:Object,
+    mustVerifyEmail: {
+        type: Boolean,
+    },
+    status: {
+        type: String,
+    },
+    success: {
+        type: String,
+    },
+    isCurrentUserFollower: Boolean,
+    followerCount: Number,
+    user:{
+        type: Object,
+    },
+
+});
+///authUser && authUser.id === props.user.id     //console.log(authUser,  props.user)
+const isMyProfile = computed(() => authUser && authUser.id === props.user.id )
+
+// watch(props.status, (newValue, oldValue) =>{
+//     console.log(newValue, oldValue)
+//     if (!oldValue && newValue){
+//         setInterval(() =>{
+//             showNotification.value = false
+//         }, 5000)
+//     }
+// })
+
+function onCoverChange(event) {
+    console.log(event)
+    imagesForm.cover = event.target.files[0]
+    if (imagesForm.cover){
+        //read that file
+        const  reader = new FileReader()
+        reader.onload = () => {
+            console.log("Onload")
+            coverImageSrc.value = reader.result
+        }
+        reader.readAsDataURL(imagesForm.cover)
+    }
+}
+
+function onAvatarChange(event) {
+    console.log(event)
+    imagesForm.avatar = event.target.files[0]
+    if (imagesForm.avatar){
+        //read that file
+        const  reader = new FileReader()
+        reader.onload = () => {
+            console.log("Onload")
+            avatarImageSrc.value = reader.result
+        }
+        reader.readAsDataURL(imagesForm.avatar)
+    }
+}
+
+function cancelCoverImage() {
+    imagesForm.cover = null;
+    coverImageSrc.value =null
+}
+
+function cancelAvatarImage() {
+    imagesForm.avatar = null;
+    avatarImageSrc.value =null
+}
+
+function submitlCoverImage() {
+    console.log(imagesForm.cover); //send to backend
+    imagesForm.post(route('profile.updateImages'),{
+        preserveScroll: true,
+        onSuccess: (user) => {
+            showNotification.value = true
+            cancelCoverImage()
+            setInterval(() =>{
+                showNotification.value = false
+            }, 3000)
+        }
+    })
+}
+
+function submitAvatarImage() {
+    console.log(imagesForm.cover); //send to backend
+    imagesForm.post(route('profile.updateImages'),{
+        preserveScroll: true,
+        onSuccess: (user) => {
+            showNotification.value = true
+            cancelAvatarImage()
+            setInterval(() =>{
+                showNotification.value = false
+            }, 3000)
+        }
+    })
+}
+
+function followUser() {
+    const form = useForm({
+        follow: props.isCurrentUserFollower ? false : true  //!props.isCurrentUserFollower
+    })
+
+    form.post(route('user.follow', props.user.id), {
+        preserveScroll: true
+    })
+}
+
+</script>
 <template>
     <AuthenticatedLayout>
         <div class="max-w-[768px]  mx-auto h-full overflow-auto">
@@ -110,17 +243,24 @@
 
                     </div>
                     <div class="flex justify-between items-center flex-1 p-4">
-                        <h2 class="font-bold text-lg">{{ user.name }}</h2>
-                            <!--  Invite User Button          -->
-                            <PrimaryButton v-if="authUser">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                     class="w-4 h-4 mr-2">
-                                    <path
-                                        d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z"/>
-                                </svg>
+                        <div>
+                            <h2 class="font-bold text-lg">{{ user.name }}</h2>
+                            <p class="text-sm text-gray-700"> {{ followerCount }} followers</p>
+                        </div>
+                            <div>
+                                <!-- Follow User Button  -->
+                                <PrimaryButton
+                                    v-if="!isCurrentUserFollower"
+                                    @click="followUser">
+                                    Follow User
+                                </PrimaryButton>
 
-                                Edit Profile
-                            </PrimaryButton>
+                                <DangerButton
+                                    v-else
+                                    @click="followUser">
+                                    Unfollow User
+                                </DangerButton>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -167,126 +307,6 @@
         </div>
     </AuthenticatedLayout>
 </template>
-
-<script setup>
-import {computed, ref, watch} from 'vue'
-import { XMarkIcon, CheckCircleIcon ,CameraIcon } from '@heroicons/vue/24/solid'
-import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-
-import {usePage} from "@inertiajs/vue3";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import TablItem from "@/Pages/Profile/Partials/TabItem.vue";
-import Edit from "@/Pages/Profile/Edit.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm } from '@inertiajs/vue3'
-
-
-const authUser = usePage().props.auth.user;
-const coverImageSrc = ref('')
-const avatarImageSrc = ref('')
-const showNotification = ref(true)
-
-
-const imagesForm = useForm({
-    avatar: null,
-    cover: null,
-})
-
-const props = defineProps({
-    errors:Object,
-    mustVerifyEmail: {
-        type: Boolean,
-    },
-    status: {
-        type: String,
-    },
-    success: {
-        type: String,
-    },
-    user:{
-       type: Object,
-    }
-});
-  ///authUser && authUser.id === props.user.id     //console.log(authUser,  props.user)
-const isMyProfile = computed(() => authUser && authUser.id === props.user.id )
-
-// watch(props.status, (newValue, oldValue) =>{
-//     console.log(newValue, oldValue)
-//     if (!oldValue && newValue){
-//         setInterval(() =>{
-//             showNotification.value = false
-//         }, 5000)
-//     }
-// })
-
-function onCoverChange(event) {
-    console.log(event)
-    imagesForm.cover = event.target.files[0]
-    if (imagesForm.cover){
-        //read that file
-        const  reader = new FileReader()
-        reader.onload = () => {
-            console.log("Onload")
-            coverImageSrc.value = reader.result
-        }
-        reader.readAsDataURL(imagesForm.cover)
-    }
-}
-
-function onAvatarChange(event) {
-    console.log(event)
-    imagesForm.avatar = event.target.files[0]
-    if (imagesForm.avatar){
-        //read that file
-        const  reader = new FileReader()
-        reader.onload = () => {
-            console.log("Onload")
-            avatarImageSrc.value = reader.result
-        }
-        reader.readAsDataURL(imagesForm.avatar)
-    }
-}
-
-function cancelCoverImage() {
-    imagesForm.cover = null;
-    coverImageSrc.value =null
-}
-
-function cancelAvatarImage() {
-    imagesForm.avatar = null;
-    avatarImageSrc.value =null
-}
-
-function submitlCoverImage() {
-    console.log(imagesForm.cover); //send to backend
-    imagesForm.post(route('profile.updateImages'),{
-        preserveScroll: true,
-        onSuccess: (user) => {
-            showNotification.value = true
-            cancelCoverImage()
-            setInterval(() =>{
-            showNotification.value = false
-          }, 3000)
-        }
-    })
-}
-
-function submitAvatarImage() {
-    console.log(imagesForm.cover); //send to backend
-    imagesForm.post(route('profile.updateImages'),{
-        preserveScroll: true,
-        onSuccess: (user) => {
-            showNotification.value = true
-            cancelAvatarImage()
-            setInterval(() =>{
-                showNotification.value = false
-            }, 3000)
-        }
-    })
-}
-
-
-</script>
 
 <style scoped>
 

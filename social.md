@@ -850,3 +850,10 @@
     This part  iis goinng to be pretty interesting , We're going to implement follow and  unfollow functionaity.
     We're going to display post for a specific user on the user's profile page and we're going to show
     all the followers and followings of a specific user on its profile page 
+     CLICK ->FOLLOW USER -> MAKE REQUEST ->BACKEND SIDE->CREATE NEW RECORD INSIDE THE  FOLLOW TABLE.
+    SEND AND EEMAIL TO A USER ->CURRENT  JOHN SMITH HAS FOLLOW U
+    php artisan make:notification FollowUser
+
+    Who I am following ?
+    Who is following me?
+    Should be visiible to other users

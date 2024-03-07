@@ -204,7 +204,6 @@ function deleteUser(user) {
             <div class="p-4">
                 <div class="group  relative bg-white">
 
-                    <div>
                         <img
                             :src="coverImageSrc || group.cover_url || '/image/default_cover.webp'" alt=""
                             class="w-full h-[200px] object-cover">
@@ -253,7 +252,6 @@ function deleteUser(user) {
                                 </button>
                             </div>
                         </div>
-                    </div>
 
                     <!-- Avatar  -->
                     <div class="flex">
