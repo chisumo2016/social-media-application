@@ -839,4 +839,14 @@
     We're gooing to implement rendering about  group details  on the groups's profile page.For this
         we're going  to add  a new  tab about  grou tab.
 
-    
+    v-if="isCurrentUserAdmin" remove this 
+
+        modified:   app/Http/Requests/StoreGroupRequest.php
+        modified:   app/Http/Requests/UpdateGroupRequest.php
+        modified:   resources/js/Pages/Group/View.vue
+        modified:   social.md
+
+# FOLLOW USER , SHOW POSTS , FOLLOWERS AND FOLLOWING 
+    This part  iis goinng to be pretty interesting , We're going to implement follow and  unfollow functionaity.
+    We're going to display post for a specific user on the user's profile page and we're going to show
+    all the followers and followings of a specific user on its profile page 

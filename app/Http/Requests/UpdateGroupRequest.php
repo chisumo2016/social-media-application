@@ -15,7 +15,7 @@ class UpdateGroupRequest extends FormRequest
         /** @var \App\Models\Group $group */
         $group = $this->route('group');
 
-        return  $group->isAdmin(Auth::id());
+        return $group->isAdmin(Auth::id());
     }
 
     /**
@@ -31,4 +31,13 @@ class UpdateGroupRequest extends FormRequest
             'about' => ['nullable']
         ];
     }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'about' => nl2br($this->about), // Convert about to uppercase
+        ]);
+    }
+
+
 }
