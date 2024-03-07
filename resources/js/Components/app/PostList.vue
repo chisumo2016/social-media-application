@@ -33,15 +33,6 @@ watch(() => page.props.posts , () =>{  /*this get changed page.props.posts*/
 
 
 const authUser = usePage().props.auth.user;
-
-
-const showEditModal = ref(false)
-const showAttachmentModal = ref(false)
-const editPost = ref({})
-const previewAttachmentPost = ref({})
-const loadMoreIntersect  = ref(null)
-
-
 function openEditModal(post) {
     editPost.value = post;
     showEditModal.value = true;
@@ -56,6 +47,15 @@ function openAttachmentPreviewModal(post, index) { //current file I am clicking
     }
     showAttachmentModal.value = true;
 }
+
+const showEditModal = ref(false)
+const showAttachmentModal = ref(false)
+const editPost = ref({})
+const previewAttachmentPost = ref({})
+const loadMoreIntersect  = ref(null)
+
+
+
 
 function onModalHide() { //reset the post
     console.log('1111')

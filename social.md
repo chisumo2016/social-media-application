@@ -822,5 +822,21 @@
       share thhe specific post to somebody else   now eachh ppost willl have its own URL you can
       copy that and sharing that url,pposted to another social media.
 
-    
+    eg: http://localhost:1234/post/3
+
+         modified:   app/Http/Controllers/PostController.php
+        modified:   app/Notifications/CommentCreated.php
+        modified:   app/Notifications/CommentDeleted.php
+        modified:   app/Notifications/PostCreated.php
+        modified:   app/Notifications/ReactionAddedOnComment.php
+        modified:   app/Notifications/ReactionAddedOnPost.php
+        modified:   resources/js/Components/app/EditDeleteDropdown.vue
+        modified:   resources/js/Components/app/PostList.vue
+        modified:   resources/js/Pages/Post/View.vue
+        modified:   routes/web.php
+
+#  DISPLAY ABOUT GROUP TAB ON GROUP PROFILE PAGE
+    We're gooing to implement rendering about  group details  on the groups's profile page.For this
+        we're going  to add  a new  tab about  grou tab.
+
     

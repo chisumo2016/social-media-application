@@ -28,6 +28,20 @@ use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
+    public function view(Post $post)
+    {
+        $post->loadCount('reactions');
+        $post->load([
+            /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
+            'comments' => function ($query)  {
+                /** SELECT COUNT(*)  from reactions**/
+                $query ->withCount('reactions');
+            },
+        ]);
+        return inertia('Post/View', [
+            'post' => new PostResource($post)
+        ]);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -245,7 +259,7 @@ class PostController extends Controller
         /**Notify the owner of the comment**/
         $post = $comment->post;
 
-        $post->user->notify(new CommentCreated($comment));
+        $post->user->notify(new CommentCreated($comment, $post));
 
         return response(new CommentResource($comment), 201);
     }
@@ -336,4 +350,6 @@ class PostController extends Controller
             ]);
         }
     }
+
+
 }
