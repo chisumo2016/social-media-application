@@ -864,6 +864,7 @@
           2:  Create the child layout 
 
 # SHOW ONLY RELEVANT POSTS ON HOME PAGE
+            
     We're going to implement rendering  oonly relevant posts on the homepage timeline of the user.
     We're going to show only posts which are  placed  in the same group I  am part of OR which are  posted  by the users
     I am following.
@@ -904,11 +905,23 @@
             modified:   resources/js/Components/app/GroupItem.vue
             modified:   resources/js/Pages/Home.vue
             modified:   resources/js/Pages/Profile/View.vue
+        EG Mary I  am not following to Mary , I should not see Mary Post on my  Timeline
+
+            SELECT f.follower_id , gu.group_id, posts.* FROM posts
+                LEFT JOIN followers f on posts.user_id = f.user_id and f.follower_id = :userId
+                LEFT JOIN group_users gu  on gu.user_id = :userId and gu.group_id =  posts.group_id and gu.status = 'approved'
+                
+                WHERE posts.deleted_at is null
+                AND (f.follower_id IS NOT NULL OR gu.group_id IS NOT NULL )  #OR posts.user_id = :userId
+                AND  posts.user_id  != :userId
+
 
 # IMPLEMENT PHOTOS TAB 
-    We're going to  implement rendering  only relevant posts on the  homepage timelineof the user 
-    We're goiing to show  only  posts which are placed in same group I am part of or which are posted by 
-            the users I am following
+     We're going to implement photos to for the group profie page as well as for the user profile page 
+     We're  going to render all the photos that  is uploaded in  group or in the  profile page w/c the 
+        possibility to expand the photos  and  see on full screen aand navigate btn left  and previous 
+        buttons .W're going to use the  same component what we hhave already  used in the postt attachments area.
+    
 
 
 

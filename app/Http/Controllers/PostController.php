@@ -88,7 +88,7 @@ class PostController extends Controller
 
             if ($group){
                 $users = $group->approvedUsers()->where('users.id', '!=', $user->id)->get();
-               Notification::send($users , new PostCreated($post, $group));
+               Notification::send($users , new PostCreated($post, $user, $group));
 
                /**Globally**/
 

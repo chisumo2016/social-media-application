@@ -30,7 +30,9 @@ class ProfileController extends Controller
         $followerCount = Follower::where('user_id', $user->id)->count();
         //dd($followerCount);
 
-        $posts = Post::postsForTimeLine(Auth::id())->where('user_id', $user->id)->paginate(10);
+        $posts = Post::postsForTimeLine(Auth::id())
+                    ->where('user_id', $user->id)
+                    ->paginate(10);
 
         /**Changed because of Read more**/
         $posts = PostResource::collection($posts);
