@@ -92,7 +92,8 @@ class PostController extends Controller
 
                /**Globally**/
 
-                $followers = $users->followers;
+                $followers = $user->followers;
+
                 Notification::send($followers , new PostCreated($post, $user, null));
                 //dd($followers);
             }
