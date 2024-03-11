@@ -856,4 +856,33 @@
 
     Who I am following ?
     Who is following me?
-    Should be visiible to other users
+    Should be visible to other users
+    Might be large array
+          1: complex way is create a separate page for posts, Followers, Followings and Photos ,Once you click one 
+            of them ,the url change
+
+          2:  Create the child layout 
+
+# SHOW ONLY RELEVANT POSTS ON HOME PAGE
+    We're going to implement rendering  oonly relevant posts on the homepage timeline of the user.
+    We're going to show only posts which are  placed  in the same group I  am part of OR which are  posted  by the users
+    I am following
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

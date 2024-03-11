@@ -64,7 +64,7 @@ class GroupController extends Controller
 
 
         if ($request->wantsJson()){
-            return  PostResource::collection($posts);
+            return  $posts;
         }
 
         $users = User::query()  //$group->approvedUsers()

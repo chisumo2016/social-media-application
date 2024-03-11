@@ -4,10 +4,29 @@
 import Checkbox from "@/Components/Checkbox.vue";
 import InputTextArea from "@/Components/InputTextArea.vue";
 import TextInput from "@/Components/TextInput.vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 defineProps({
     form:Object
 })
+
+const editor = ClassicEditor;
+const editorConfig ={
+    toolbar: ['heading' ,'|', 'bold',
+        'italic',
+        'link',
+        '|',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'indent',
+        'outdent',
+        '|',
+        'blockQuote',
+    ],
+    // balloonToolbar: ['balloonLink','balloonBlockquote','balloonIndent','balloonAlign','balloonImage']
+}
+
 </script>
 
 <template>
@@ -31,7 +50,9 @@ defineProps({
     </div>
     <div class="mb-3">
         <label for="">About Group</label>
-        <InputTextArea v-model="form.about" class="w-full"/>
+        <!-- CKEDITOR  -->
+        <ckeditor :editor="editor" v-model="form.about" :config="editorConfig"></ckeditor>
+<!--        <InputTextArea v-model="form.about" class="w-full"/>-->
     </div>
 </template>
 

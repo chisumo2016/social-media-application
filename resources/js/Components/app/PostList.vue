@@ -18,13 +18,13 @@ const props = defineProps({
 })
 
 watch(() => page.props.posts , () =>{  /*this get changed page.props.posts*/
-    console.log(allPosts.value.data)
-    console.log(page.props.posts.data,)
+    //console.log(allPosts.value.data)
+    //console.log(page.props.posts.data,)
         if (page.props.posts){
             /*Update all old  posts*/
             allPosts.value ={
                 data: page.props.posts.data,
-                next: page.props.posts.links.next
+                next: page.props.posts.links?.next
             }
         }
 
@@ -75,6 +75,7 @@ function loadMore() {
 
     axiosClient.get(allPosts.value.next)  //url
         .then(({data}) => {
+            console.log(data)
             //console.log( allPosts.value.data, data.data)
             allPosts.value.data = [...allPosts.value.data, ...data.data]
             allPosts.value.next = data.links.next
