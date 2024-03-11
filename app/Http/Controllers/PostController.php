@@ -38,6 +38,7 @@ class PostController extends Controller
                 $query ->withCount('reactions');
             },
         ]);
+
         return inertia('Post/View', [
             'post' => new PostResource($post)
         ]);
@@ -88,6 +89,12 @@ class PostController extends Controller
             if ($group){
                 $users = $group->approvedUsers()->where('users.id', '!=', $user->id)->get();
                Notification::send($users , new PostCreated($post, $group));
+
+               /**Globally**/
+
+                $followers = $users->followers;
+                Notification::send($followers , new PostCreated($post, $user, null));
+                //dd($followers);
             }
 
         }catch (\Exception $e){

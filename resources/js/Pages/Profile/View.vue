@@ -13,6 +13,7 @@ import CreatePost from "@/Components/app/CreatePost.vue";
 import PostList from "@/Components/app/PostList.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
 import TextInput from "@/Components/TextInput.vue";
+import TabItem from "@/Pages/Profile/Partials/TabItem.vue";
 
 
 

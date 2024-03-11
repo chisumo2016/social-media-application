@@ -4,6 +4,10 @@
 import FollowingListItems from "@/Components/app/FollowingListItems.vue";
 import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
 
+defineProps({
+    users: Array
+})
+
 </script>
 
 <template>
@@ -24,7 +28,7 @@ import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
                 </DisclosureButton>
 
                 <DisclosurePanel>
-                    <FollowingListItems/>
+                    <FollowingListItems :users="users"/>
                 </DisclosurePanel>
             </Disclosure>
         </div>
@@ -33,7 +37,7 @@ import {Disclosure, DisclosureButton, DisclosurePanel} from "@headlessui/vue";
             <div class="flex justify-between">
                 <h2 class="text-xl font-bold">My Followings</h2>
             </div>
-            <FollowingListItems/>
+            <FollowingListItems :users="users"/>
         </div>
     </div>
 </template>
