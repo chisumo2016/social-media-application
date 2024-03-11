@@ -866,11 +866,49 @@
 # SHOW ONLY RELEVANT POSTS ON HOME PAGE
     We're going to implement rendering  oonly relevant posts on the homepage timeline of the user.
     We're going to show only posts which are  placed  in the same group I  am part of OR which are  posted  by the users
-    I am following
+    I am following.
+        
+        TIMELINE ON HOME PAGE.
+                I don't want to see anyone on my time line if ,idont follow them.
+
     
+    $followers = User::query()
+                        ->select('users.*')
+                        ->join('followers AS f', 'f.follower_id','users.id')
+                        ->where('f.user_id', $user->id) //user is Mary $user->id
+                        ->get();
 
+        $followings = User::query()
+            ->select('users.*')
+            ->join('followers AS f', 'f.user_id', 'users.id')
+            ->where('f.follower_id', $user->id)
+            ->get();
 
+    CHANGE TO 
+            $followers = $user->followers;
 
+            $followings = $user->followings;
+
+         ->line('Thank you for using our application!');
+            ->line('New post was added by user "' . $this->group->slug . '"')
+            ->action('View Post', url(route('post.view', $this->post->id)))
+  
+
+            modified:   app/Http/Controllers/HomeController.php
+            modified:   app/Http/Controllers/PostController.php
+            modified:   app/Http/Controllers/ProfileController.php
+            modified:   app/Models/User.php
+            modified:   app/Notifications/PostCreated.php
+            modified:   resources/js/Components/app/FollowingList.vue
+            modified:   resources/js/Components/app/FollowingListItems.vue
+            modified:   resources/js/Components/app/GroupItem.vue
+            modified:   resources/js/Pages/Home.vue
+            modified:   resources/js/Pages/Profile/View.vue
+
+# IMPLEMENT PHOTOS TAB 
+    We're going to  implement rendering  only relevant posts on the  homepage timelineof the user 
+    We're goiing to show  only  posts which are placed in same group I am part of or which are posted by 
+            the users I am following
 
 
 
