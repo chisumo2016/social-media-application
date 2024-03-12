@@ -14,6 +14,8 @@ import PostList from "@/Components/app/PostList.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TabItem from "@/Pages/Profile/Partials/TabItem.vue";
+import PostAttachments from "@/Components/app/PostAttachments.vue";
+import TabPhotos from "@/Pages/Profile/TabPhotos.vue";
 
 
 
@@ -22,9 +24,11 @@ import TabItem from "@/Pages/Profile/Partials/TabItem.vue";
 const coverImageSrc = ref('')
 const avatarImageSrc = ref('')
 const showNotification = ref(true)
-const authUser = usePage().props.auth.user;
 const searchFollowersKeyword = ref('')
 const searchFollowingsKeyword = ref('')
+
+
+const authUser = usePage().props.auth.user;
 
 const imagesForm = useForm({
     avatar: null,
@@ -50,6 +54,7 @@ const props = defineProps({
     posts:Object,
     followers:Array,
     followings:Array,
+    photos:Array
 
 });
 ///authUser && authUser.id === props.user.id     //console.log(authUser,  props.user)
@@ -139,6 +144,8 @@ function followUser() {
         preserveScroll: true
     })
 }
+
+
 
 </script>
 <template>
@@ -345,7 +352,7 @@ function followUser() {
                             </div>
                         </TabPanel>
                         <TabPanel >
-                            Photos
+                            <TabPhotos :photos="photos"/>
                         </TabPanel>
                         <TabPanel v-if="isMyProfile">
                             <Edit :must-verify-email="mustVerifyEmail" :status="status"/>

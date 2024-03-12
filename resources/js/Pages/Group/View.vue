@@ -15,6 +15,7 @@ import TextInput from "@/Components/TextInput.vue";
 import GroupForm from "@/Components/app/GroupForm.vue";
 import PostList from "@/Components/app/PostList.vue";
 import CreatePost from "@/Components/app/CreatePost.vue";
+import TabPhotos from "@/Pages/Profile/TabPhotos.vue";
 
 
 
@@ -41,6 +42,7 @@ const props = defineProps({
     posts: Object, //data&pagination
     users: Array,
     requests: Array,
+    photos:Array,
 
 });
 
@@ -404,7 +406,7 @@ function deleteUser(user) {
                             </div>
                         </TabPanel>
                         <TabPanel class="bg-white p-3 shadow">
-                            Photos
+                            <TabPhotos :photos="photos" />
                         </TabPanel>
 <!--                        <pre>{{ group}}</pre>-->
                         <TabPanel class="bg-white p-3 shadow">

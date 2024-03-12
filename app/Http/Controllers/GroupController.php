@@ -9,11 +9,13 @@ use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupUserResource;
+use App\Http\Resources\PostAttachmentResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\UserResource;
 use App\Models\Group;
 use App\Models\GroupUser;
 use App\Models\Post;
+use App\Models\PostAttachment;
 use App\Models\User;
 use App\Notifications\InvitationApproved;
 use App\Notifications\InvitationInGroup;
@@ -77,6 +79,17 @@ class GroupController extends Controller
 
         $requests   = $group->pendingUsers()->orderBy('name')->get(); //pendingUsers
 
+        /**Display Photos **/
+        $photos = PostAttachment::query()
+            ->select('post_attachments.*')
+            ->join('posts AS p', 'p.id', 'post_attachments.post_id')
+            ->where('p.group_id', $group->id)
+            ->where('mime', 'like', 'image/%')
+            ->latest()
+            ->get();
+
+       //dd($photos->toSql());
+
         return Inertia::render('Group/View', [
 
             'success' => session('success'),
@@ -84,6 +97,7 @@ class GroupController extends Controller
             'posts'  => $posts, //PostResource::collection($posts),  //will return with paginatted data
             'users' =>GroupUserResource::collection($users), //UserResource
             'requests' => UserResource::collection($requests),
+            'photos' => PostAttachmentResource::collection($photos)
 
 
         ]);

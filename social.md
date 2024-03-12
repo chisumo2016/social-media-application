@@ -922,9 +922,22 @@
         possibility to expand the photos  and  see on full screen aand navigate btn left  and previous 
         buttons .W're going to use the  same component what we hhave already  used in the postt attachments area.
     
+    QUERY
+        select  * from post_attachments
+            WHERE  mime like 'image/%'
+            AND created_by
 
+        modified:   app/Http/Controllers/GroupController.php
+        modified:   app/Http/Controllers/ProfileController.php
+        modified:   resources/js/Components/app/PostItem.vue
+        modified:   resources/js/Pages/Group/View.vue
+        modified:   resources/js/Pages/Profile/View.vue
+         resources/js/Pages/Profile/TabPhotos.vue
 
-
+# GENERATE POST CONTENT  WITH CHAT GPT API
+    We're going to use open AI API and implement  generation post content with help of AI lile thhe
+        CHAT GPT API ,you can provide the   prompt hit this AI button  and it wiill render and generate
+    post content for me
 
 
 
