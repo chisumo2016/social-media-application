@@ -917,6 +917,7 @@
 
 
 # IMPLEMENT PHOTOS TAB 
+    Display photos in Group profile page and in user profile page
      We're going to implement photos to for the group profie page as well as for the user profile page 
      We're  going to render all the photos that  is uploaded in  group or in the  profile page w/c the 
         possibility to expand the photos  and  see on full screen aand navigate btn left  and previous 
@@ -937,11 +938,27 @@
 # GENERATE POST CONTENT  WITH CHAT GPT API
     We're going to use open AI API and implement  generation post content with help of AI lile thhe
         CHAT GPT API ,you can provide the   prompt hit this AI button  and it wiill render and generate
-    post content for me
+    post content for me .
 
+    https://platform.openai.com/docs/overview
+    https://github.com/openai-php/laravel
+    sh: 1: xdg-open: not found
 
+    There aare no commands defined  in the "openai" namespace
+            modified:   .env.example
+            modified:   app/Http/Controllers/PostController.php
+            modified:   composer.json
+            modified:   composer.lock
+            modified:   resources/js/Components/app/PostModal.vue
+            modified:   routes/web.php
+            config/openai.php
+	        resources/js/plugins/
 
-
+# GLOBAL SEARCH FOR USERS , GROUPS , POSTS
+    We're going  to add global search bar and implement searching for users ,groups, posts from the homepage.
+    
+    I have build social mediaa website  with laravel andd record the entire projectt . There are 40+ hours of video  recorded.
+    I plan yo pubblish the entire playlist on my youtube  channel .
 
 
 
