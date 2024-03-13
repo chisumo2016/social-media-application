@@ -102,6 +102,12 @@
     color: blue;
 }
 
+.ck-content-output a.hashtag{
+    background-color: #eaf4ff;
+    color: #4156e2;
+
+}
+
 /* Links Hashtag */
 .ck-content-output a.hashtag {
     background-color: #eaf4ff;

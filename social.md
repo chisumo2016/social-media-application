@@ -974,7 +974,15 @@
 # SEARCH FOR POSTS WITH HASH TAGS
     We're going to implement  rendering hashtags properly with a different color and implement  the functionality  to search posts
         with hashtag
+        modified:   app/Http/Requests/StorePostRequest.php
+        modified:   resources/css/app.css
+        modified:   resources/js/Components/app/PostItem.vue
+        modified:   resources/js/Layouts/AuthenticatedLayout.vue
+        modified:   resources/js/Pages/Search.vue
 
+# ATTACHMENT VIDEO PREVIEW
+    We're going to implement video preview  on  the post attachments ,  we're going to  do preview for MP4 files at the
+        moment ONLY
 
 
 

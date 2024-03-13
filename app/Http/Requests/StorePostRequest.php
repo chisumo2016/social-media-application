@@ -71,11 +71,13 @@ class StorePostRequest extends FormRequest
 
     }
 
+    //preg_match('/(#\w+)/', '<a href="/search/$1">$1</a>' , $this->input('body') ? : ''),
     protected function prepareForValidation()
     {
         $this->merge([
             'user_id' => auth()->user()->id,
             'body'    => $this->input('body') ? : '',
+
         ]);
     }
 
@@ -97,3 +99,8 @@ class StorePostRequest extends FormRequest
 //    $totalSize = collect()->sum(function (UploadedFile $file){
 //         return $file->getSize();
 //   });
+
+
+//'body'    => preg_replace_callback('/(#\w+)(?![^<]*<\/a>)/', function ($a){
+//    return '<a href="/search/'.urlencode($a[0]).'">' .$a[0] .'</a>';
+//}, $this->input('body') ? : ''),
