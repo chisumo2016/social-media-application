@@ -10,7 +10,7 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/vue'
-import {isImage} from "@/Helpers/helpers.js";
+import {isImage, isVideo} from "@/Helpers/helpers.js";
 
 
 
@@ -101,24 +101,54 @@ function next() {
                                class="flex flex-col w-full transform overflow-hidden  bg-slate-800 dark:bg-slate-900 text-left align-middle shadow-xl transition-all"
                            >
 
-                               <button   @click="closeModal" class="absolute right-3 top-3 z-30 w-1-0 h-10 rounded-full hover:bg-black/10 dark:hover:bg-black/30 transition flex items-center justify-center text-gray-100">
+                               <button
+                                   @click="closeModal"
+                                   class="absolute
+                                   right-3 top-3 z-30
+                                   w-1-0 h-10 rounded-full
+                                   hover:bg-black/10
+                                   dark:hover:bg-black/30
+                                   transition flex
+                                   items-center
+                                   justify-center text-gray-100 z-40">
 
                                    <XMarkIcon class="w-6 h-6"/>
                                </button>
 
                                <!--    Attachment  Preview  -->
                                <div class="relative group h-full">
-                                   <div @click="prev" class="absolute flex items-center w-12 h-full left-0 bg-black/5 group-hover:opacity-100 text-gray-100 cursor-pointer">
+                                   <div
+                                        @click="prev"
+                                        class="absolute
+                                        flex items-center
+                                         w-12 h-full left-0
+                                         bg-black/5
+                                         group-hover:opacity-100
+                                         text-gray-100 cursor-pointer z-30">
                                        <ChevronLeftIcon  class="w-12"/>
                                    </div>
-                                   <div @click="next" class="absolute flex items-center w-12 right-0 h-full bg-black/5 group-hover:opacity-100 text-gray-100  cursor-pointer">
+                                   <div @click="next"
+                                        class="absolute flex
+                                                opacity-0
+                                                items-center w-12
+                                                right-0 h-full
+                                                bg-black/5
+                                                group-hover:opacity-100 text-gray-100  cursor-pointer z-30">
                                        <ChevronRightIcon class="w-12"/>
                                    </div>
 
+                                   <!--    Attachments  -->
                                    <div class="flex items-center justify-center w-full h-full p-3">
                                        <img v-if="isImage(attachment)"
                                             :src="attachment.url" alt=""
                                             class="max-w-full max-h-full">
+
+                                       <!--    Video   -->
+                                       <div v-else-if="isVideo(attachment)" class="flex items-center">
+
+                                           <video :src="attachment.url" controls autoplay></video>
+                                       </div>
+
                                        <div v-else class="p-32 flex flex-col justify-center items-center text-gray-100" >
 
                                            <PaperClipIcon class="w-10 h-10 mb-3"/>

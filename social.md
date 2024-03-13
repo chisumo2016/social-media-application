@@ -983,7 +983,15 @@
 # ATTACHMENT VIDEO PREVIEW
     We're going to implement video preview  on  the post attachments ,  we're going to  do preview for MP4 files at the
         moment ONLY
+        
+            PostAttachments.vue
+            modified:   resources/js/Components/app/AttachmentPreviewModal.vue
+            modified:   resources/js/Components/app/PostAttachments.vue
+            modified:   resources/js/Helpers/helpers.js
 
+# IMPLEMENT  URL PREVIEW 
+    We're going to implement URL preview like when you post the URL it's going to fetch the information  of the URL and
+        display  that nice preview .
 
 
 
