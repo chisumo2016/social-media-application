@@ -960,7 +960,20 @@
     I have build social mediaa website  with laravel andd record the entire projectt . There are 40+ hours of video  recorded.
     I plan yo pubblish the entire playlist on my youtube  channel .
 
+    Buuild UI
+    Make controlller
+            php  artisan make:controller SearchController
+    Create these search components
+            app/Http/Controllers/SearchController.php
+            resources/js/Pages/Search.vue
 
+            modified:   resources/js/Layouts/AuthenticatedLayout.vue
+            modified:   resources/js/Pages/Profile/TabPhotos.vue
+            modified:   routes/web.php
+
+# SEARCH FOR POSTS WITH HASH TAGS
+    We're going to implement  rendering hashtags properly with a different color and implement  the functionality  to search posts
+        with hashtag
 
 
 

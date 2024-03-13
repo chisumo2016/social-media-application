@@ -56,15 +56,17 @@ function openPhoto(index) { //current file I am clicking
                </template>
            </div>
        </template>
+   </div>
+    <div v-if="!photos.length" class="py-8 text-center text-gray-600">
+        There are no photos
+    </div>
+
 
        <!--    Preview Attachment Modal-->
        <AttachmentPreviewModal
            :attachments="photos || []"
            v-model="showModal"
-           v-model:index="currentPhotoIndex"
-
-       />
-   </div>
+           v-model:index="currentPhotoIndex"/>
 </template>
 
 <style scoped>
