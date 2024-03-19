@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -64,16 +65,25 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public static function postsForTimeLine($userId ,  $getLatest = true): \Illuminate\Database\Eloquent\Builder
+    public static function postsForTimeLine($userId ,  $getLatest = true): Builder
     {
         $query =  Post::query()  /**SELECT * FROM post*/
         /** SELECT COUNT(*)  from reactions**/
         ->withCount('reactions')
             ->with([
+                'user',
+                'group',
+                'group.currentUserGroup',
+                'attachments',
                 /** SELECT * FROM comments WHERE post_id IN (1,2,3..)**/
                 'comments' => function ($query)  {
                     /** SELECT COUNT(*)  from reactions**/
                     $query ->withCount('reactions');
+                },
+                'comments.user',
+                'comments.reactions' => function ($query) use ($userId) {
+                            /**SELECT *   from reactions WHERE user_id = ? (current user)*/
+                        $query->where('user_id', $userId);
                 },
 
                 'reactions' => function ($query) use ($userId) {

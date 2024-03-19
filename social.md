@@ -1117,6 +1117,8 @@
 	        resources/js/Components/app/UrlPreview.vue
 
 # PIN POSTS AT THE TOP OF THE PROFILE PAGE
+    Implement functionality to pin/unpin posts on group or user profile pages
+
     We're going  to implement possiblity to pin the posts on the users profile page  or on the groups profile page.
     Only admin users will be able to pin  post oon the groups profile pages
     
@@ -1202,6 +1204,10 @@
         app/Http/Controllers/PinController.php
 	    database/migrations/2024_03_19_172013_add_pinned_post_id_column_to_groups_and_users_table.php
 
+#  DEBUG AND OPTIMIZE NUMBERS OF QUERIES 
+          modified:   app/Models/Post.php
 
+# IMPLEMENT DARK MODE
+    Implement dark mode and the make the whole website compatible with dark mode .
 
 
