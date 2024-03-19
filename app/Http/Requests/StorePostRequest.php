@@ -37,6 +37,8 @@ class StorePostRequest extends FormRequest
         return [
               'body'    => ['nullable', 'string'],
               'user_id' => ['numeric'],
+              'preview' => ['nullable', 'array'],
+              'preview_url' => ['nullable', 'string'],
 
               'attachments' => [
                   'array',
@@ -74,9 +76,18 @@ class StorePostRequest extends FormRequest
     //preg_match('/(#\w+)/', '<a href="/search/$1">$1</a>' , $this->input('body') ? : ''),
     protected function prepareForValidation()
     {
+        $body = $this->input('body') ? : '';
+        $previewUrl = $this->input('preview_url') ? : '';
+
+        $trimmedBody = trim(strip_tags($body));
+
+        if ($trimmedBody === $previewUrl){
+            $body = '';
+        }
+
         $this->merge([
             'user_id' => auth()->user()->id,
-            'body'    => $this->input('body') ? : '',
+            'body'    => $body,
 
         ]);
     }

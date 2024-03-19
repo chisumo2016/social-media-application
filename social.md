@@ -990,8 +990,137 @@
             modified:   resources/js/Helpers/helpers.js
 
 # IMPLEMENT  URL PREVIEW 
-    We're going to implement URL preview like when you post the URL it's going to fetch the information  of the URL and
+    We're going to implement URL preview like when you post the URL it's going to fetch the information OG of the URL and
         display  that nice preview .
+    CKEDITOR
+        https://ckeditor.com/docs/ckeditor5/latest/features/media-embed.html#removing-media-providers
+
+    Get this https://youtu.be/eUNWzJUvkCA?si=_Ij7wk76ElHbh7GV 
+    And create the preview of that.(https://youtu.be/eUNWzJUvkCA?si=_Ij7wk76ElHbh7GV )
+    1: Create a preview immediately after posting the url inside the post, we need to listen to the paste events and  
+        detect if  its valid url,get the url and create preview .
+    2:We can do this in  server  side ,when  we  paste something or type does create  the preview ,on submit we dtect  the link
+
+    Save and preview  ?
+    Hadd the preview coluumn inside the post ->json column
+        <ckeditor
+      :editor="editor"
+      v-model="form.body"
+      :config="editorConfig"
+      @input="handlePaste" ></ckeditor>
+
+    let  debounceTimeout = null
+
+        function fetchPreview(url) {
+
+    if (url === urlPreview.value) {
+        return;
+    }
+
+    clearTimeout(debounceTimeout)
+
+    setTimeout( () => {
+        previewUrl = url //reset  the  url to null
+        urlPreview.value = {}
+        if (url){
+            axiosClient.post(route('post.fetchUrlPreview'), {url})
+                .then(({data}) => {
+                    urlPreview.value ={
+                        title: data['og:title'],
+                        description: data['og:description'],
+                        image: data['og:image']
+                    }
+                })
+                .catch(err =>{  
+                    console.log(err)
+                })
+        }
+
+                debounceTimeout = null
+            }, 500)
+        }
+        
+        function onInputChange() {
+        let url = matchHref()
+        console.log(url)
+        
+            if (!url) {
+                url = matchLink()
+            }
+            console.log(url)
+            fetchPreview(url)
+        
+        }
+
+    eet -sum-mor biscuit
+
+    Add new column to store tye preview  information
+        php artisan make:migration add_preview_column_to_posts_table
+
+    Array to string conversion
+             protected $casts =[
+            'preview' => 'json'
+        ];
+
+    Render properly in postItem
+
+        Add new column 
+        $table->string('preview_url',2000)->nullable();
+    php artisan migrate:rollback --step=1
+    php artisan migrate
+
+    HASH TAG
+            const postBody = computed(() =>  props.post.body.replace(
+              // /(#\w+)(?![^<]*<\/a>)/g,
+                /(?:(\s+)|<p>)((#\w+)(?![^<]*<\/a>))/g,
+            (match, group1, group2) => {  //1 is white space
+                    console.log('"${match}"' , '"${group1}"' ,'"${group2}"')
+                const encodedGroup = encodeURIComponent(group2);
+                return `${group1 || ''}<a href="/search/${encodedGroup}" class="hashtag">${group2}</a>`;
+        
+                //return `<a href="/search/${encodedGroup}" class="hashtag">${group}</a>`;
+            })
+              // '<a href="/search/$1">$1</a>')
+        )
+
+    Let try use let
+
+    const postBody = computed(() =>  {
+        /**Detecting the Hash Tag*/
+        let content = props.post.body.replace(
+            // /(#\w+)(?![^<]*<\/a>)/g,
+            /(?:(\s+)|<p>)((#\w+)(?![^<]*<\/a>))/g,
+            (match, group1, group2) => {  //1 is white space
+                console.log('"${match}"' , '"${group1}"' ,'"${group2}"')
+                const encodedGroup = encodeURIComponent(group2);
+                return `${group1 || ''}<a href="/search/${encodedGroup}" class="hashtag">${group2}</a>`;
+
+                //return `<a href="/search/${encodedGroup}" class="hashtag">${group}</a>`;
+
+            }
+         )
+        // '<a href="/search/$1">$1</a>')
+
+            return content;
+    })
+
+             modified:   app/Http/Controllers/PostController.php
+            modified:   app/Http/Requests/StorePostRequest.php
+            modified:   app/Http/Resources/PostResource.php
+            modified:   app/Models/Post.php
+            modified:   composer.json
+            modified:   resources/js/Components/app/PostItem.vue
+            modified:   resources/js/Components/app/PostModal.vue
+            modified:   routes/web.php
+
+            database/migrations/2024_03_19_072620_add_preview_column_to_posts_table.php
+	        resources/js/Components/app/UrlPreview.vue
+
+# PIN POSTS AT THE TOP OF THE PROFILE PAGE
+    We're going  to implement possiblity to pin the posts on the users profile page  or on the groups profile page.
+    Only admin users will be able to pin  post oon the groups profile pages
+    
+
 
 
 

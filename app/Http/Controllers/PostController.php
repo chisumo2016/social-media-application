@@ -384,5 +384,38 @@ class PostController extends Controller
         ]);
     }
 
+    public function fetchUrlPreview(Request $request)
+     {
+        $data = $request->validate([
+            'url' => 'url'
+        ]);
 
+        $url = $data['url'];
+
+        /**Make a request and fetch information*/
+         $html = file_get_contents($url);
+
+         /**Create Dom HTML*/
+         $dom = new \DOMDocument();
+
+         // Suppress warnings for malformed HTML
+         libxml_use_internal_errors(true);
+
+         // Load HTML content into the DOMDocument
+         $dom->loadHTML($html);
+
+         // Suppress warnings for malformed HTML
+         libxml_use_internal_errors(false);
+
+         $ogTags = [];
+         $metaTags = $dom->getElementsByTagName('meta');
+         foreach ($metaTags as $tag) {
+             $property = $tag->getAttribute('property');
+             if (str_starts_with($property, 'og:')) {
+                 $ogTags[$property] = $tag->getAttribute('content');
+             }
+         }
+
+         return $ogTags;
+     }
 }

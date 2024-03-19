@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/{post}/comment',[PostController::class,'createComment'])->name('post.comment.create');
 
         Route::post('/ai-post', [PostController::class, 'aiPostContent'])->name('post.aiContent');
+        Route::post('/fetch-url-preview', [PostController::class, 'fetchUrlPreview'])->name('post.fetchUrlPreview');
     });
 
 
@@ -77,7 +78,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/user/follow/{user}', [UserController::class, 'follow'])->name('user.follow');
 
-    Route::get('/search/{search?}', [SearchController::class, 'search'])->name('search');
+    Route::get('/search/{search?}',    [SearchController::class, 'search'])->name('search');
 
 });
 
