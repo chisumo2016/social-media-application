@@ -1,8 +1,8 @@
 <script setup>
 import {Disclosure, DisclosureButton, DisclosurePanel} from '@headlessui/vue'
-import {ChatBubbleLeftRightIcon, HandThumbUpIcon, ArrowDownTrayIcon} from '@heroicons/vue/24/outline'
+import {ChatBubbleLeftRightIcon, HandThumbUpIcon, ArrowDownTrayIcon,MapPinIcon} from '@heroicons/vue/24/outline'
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
-import {router} from "@inertiajs/vue3";
+import {router, useForm, usePage} from "@inertiajs/vue3";
 import axiosClient from "@/axiosClient.js";
 import ReadMoreReadLess from "@/Components/app/ReadMoreReadLess.vue";
 import EditDeleteDropdown from "@/Components/app/EditDeleteDropdown.vue";
@@ -15,6 +15,12 @@ import UrlPreview from "@/Components/app/UrlPreview.vue";
 const props = defineProps({
     post: Object
 })
+
+const  authUser = usePage().props.auth.user;
+const  group    = usePage().props.group;
+
+
+
 const emit = defineEmits(['editClick' ,'attachmentClick'])
 
 const postBody = computed(() =>  {
@@ -23,7 +29,7 @@ const postBody = computed(() =>  {
             // /(#\w+)(?![^<]*<\/a>)/g,
             /(?:(\s+)|<p>)((#\w+)(?![^<]*<\/a>))/g,
             (match, group1, group2) => {  //1 is white space
-                console.log('"${match}"' , '"${group1}"' ,'"${group2}"')
+               // console.log('"${match}"' , '"${group1}"' ,'"${group2}"')
                 const encodedGroup = encodeURIComponent(group2);
                 return `${group1 || ''}<a href="/search/${encodedGroup}" class="hashtag">${group2}</a>`;
 
@@ -36,6 +42,16 @@ const postBody = computed(() =>  {
             return content;
   })
 
+const  isPinned = computed(() => {
+
+    if (group?.id){
+        return group?.pinned_post_id === props.post.id
+    }
+
+    return authUser?.pinned_post_id === props.post.id
+
+})
+
 
 function openEditModal() {
     emit('editClick', props.post)
@@ -43,6 +59,7 @@ function openEditModal() {
 
 function deletePost() {
     if (window.confirm("Are you sure you want to delete this post  ?")){
+
         router.delete(route('post.destroy',props.post),{
             preserveScroll: true
         })
@@ -67,6 +84,39 @@ function sendReaction() {
         })
 }
 
+function pinUnPinPost() {
+    const form = useForm({
+        forGroup: group?.id
+    })
+
+    let isPinned = false;
+    if (group?.id){
+
+        isPinned = group?.pinned_post_id === props.post.id;
+
+    }else{
+
+        isPinned = authUser?.pinned_post_id === props.post.id;
+    }
+
+    form.post(route('post.pinUnpin', props.post.id),{
+        preserveScroll : true,
+        onSuccess: () =>{
+            if (group?.id){
+                group.pinned_post_id = isPinned ? null : props.post.id
+            }else {
+                authUser.pinned_post_id = isPinned ? null : props.post.id
+            }
+        }
+    })
+
+
+    /*axiosClient.post(route('post.pinUnpin', props.post.id))
+        .then(res =>{
+            props.post.pinned = !props.post.pinned
+        })*/
+}
+
 </script>
 
 <template>
@@ -77,7 +127,24 @@ function sendReaction() {
        <PostUserHeader :post="post"/>
 
        <!--  Drop down Menu for Edit/Delete   -->
-       <EditDeleteDropdown @edit="openEditModal" @delete="deletePost" :user="post.user" :post="post"/>
+       <div class="flex items-center gap-2">
+
+<!--           {{ post.pinned ? 'Pinned' : '' }}-->
+               <div v-if="isPinned" class="flex items-center text-sm">
+                   <MapPinIcon
+                       class="h-3 w-3"
+                       aria-hidden="true" />
+                   pinned
+               </div>
+
+           <EditDeleteDropdown
+               @edit="openEditModal"
+               @delete="deletePost"
+               :user="post.user"
+               :post="post"
+               @pin="pinUnPinPost"/>
+
+       </div>
 
     </div>
 

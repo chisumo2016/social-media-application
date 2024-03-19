@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/ai-post', [PostController::class, 'aiPostContent'])->name('post.aiContent');
         Route::post('/fetch-url-preview', [PostController::class, 'fetchUrlPreview'])->name('post.fetchUrlPreview');
+
+        Route::post('/{post}/pin', [PostController::class, 'pinUnpin'])->name('post.pinUnpin');
     });
 
 
@@ -79,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/user/follow/{user}', [UserController::class, 'follow'])->name('user.follow');
 
     Route::get('/search/{search?}',    [SearchController::class, 'search'])->name('search');
+
+   // Route::post('/{post}/pin', [\App\Http\Controllers\PinController::class, 'pinUnpin'])->name('post.pinUnpin');
+
 
 });
 

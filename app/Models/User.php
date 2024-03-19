@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'cover_path',
         'avatar_path',
+        'pinned_post_id',
     ];
 
     /**

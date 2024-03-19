@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Post
+ *
+ * @package  App\Models
+ * @property  Group $group
+ */
+
 class Post extends Model
 {
     use HasFactory;
@@ -20,6 +27,7 @@ class Post extends Model
         'group_id',
         'preview',
         'preview_url',
+        //'pinned',
     ];
 
     protected $casts =[
@@ -56,9 +64,9 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
-    public static function postsForTimeLine($userId): \Illuminate\Database\Eloquent\Builder
+    public static function postsForTimeLine($userId ,  $getLatest = true): \Illuminate\Database\Eloquent\Builder
     {
-        return Post::query()  /**SELECT * FROM post*/
+        $query =  Post::query()  /**SELECT * FROM post*/
         /** SELECT COUNT(*)  from reactions**/
         ->withCount('reactions')
             ->with([
@@ -71,7 +79,14 @@ class Post extends Model
                 'reactions' => function ($query) use ($userId) {
                     /**SELECT *   from reactions WHERE user_id = ? (current user)*/
                     $query->where('user_id', $userId);
-                }])->latest();
+                }]);
+
+                if ($getLatest){
+
+                        $query->latest();
+                }
+
+                return  $query;
     }
 
     public function isOwner($userId)

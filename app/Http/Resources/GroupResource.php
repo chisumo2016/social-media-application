@@ -22,6 +22,7 @@ class GroupResource extends JsonResource
             'slug' => $this->slug,
             'status' => $this->currentUserGroup?->status,  //'status' => $this->status,
             'role' => $this->currentUserGroup?->role,     //$this->role,
+            'pinned_post_id' => $this->pinned_post_id,
             'thumbnail_url' => $this->thumbnail_path ? Storage::url($this->thumbnail_path) : '/image/no_image.png',
             'cover_url' => $this->cover_path ? Storage::url($this->cover_path) : null, //we have inn front ennd siidde
             'auto_approval' => $this->auto_approval,

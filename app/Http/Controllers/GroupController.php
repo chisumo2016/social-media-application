@@ -46,8 +46,11 @@ class GroupController extends Controller
         $userId = Auth::id();
 
         if ($group->hasApprovedUser($userId)){
-            $posts = Post::postsForTimeLine($userId)
+            $posts = Post::postsForTimeLine($userId, false)
+                ->leftJoin('groups AS g', 'g.pinned_post_id', 'posts.id')
                 ->where('group_id', $group->id)
+                ->orderBy('g.pinned_post_id' ,'desc')
+                ->orderBy('posts.created_at', 'desc')
                 ->paginate(10);
             $posts = PostResource::collection($posts);
         }else{
@@ -57,7 +60,7 @@ class GroupController extends Controller
 
                 'success' => session('success'),
                 'group' => new GroupResource($group),
-                'posts'  => null, //PostResource::collection($posts),  //will return with paginatted data
+                'posts'  => null, //PostResource::collection($posts),  //will return with paginated data
                 'users' =>[],
                 'requests' => [],
 

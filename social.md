@@ -1120,7 +1120,87 @@
     We're going  to implement possiblity to pin the posts on the users profile page  or on the groups profile page.
     Only admin users will be able to pin  post oon the groups profile pages
     
+    Add a new column pinned
+        php artisan make:migration add_pinned_column_to_posts_table
 
+    function pinUnPinPost() {
+    
+    axiosClient.post(route('post.pinUnpin', props.post.id))
+        .then(res =>{
+            props.post.pinned = !props.post.pinned
+        })
+    }
+
+
+    php artisan migrate:rollback --step=1
+
+
+        Delete 
+        public function up(): void
+    {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->boolean('pinned')->default(false);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('posts', function (Blueprint $table) {
+            $table->dropColumn('pinned');
+        });
+    }
+
+    php artisan make:migration add_pinned_post_id_column_to_groups_and_users_table
+
+
+    public function pinUnpin(Request $request,  Post $post)
+    {
+        //return 'benn';
+        if ($post->isOwner(Auth::id()) ||  $post->group && $post->group->isAdmin(Auth::id())){
+
+            if (!$post->pinned) {
+
+                if($post->group){
+                    Post::query()->where('group_id',$post->group->id)->update(['pinned'=>false]);
+                }
+
+                Post::query()->where('user_id',Auth::id())->update(['pinned'=>false]);
+            }
+
+            $post->pinned = !$post->pinned;
+            $post->save();
+
+
+            return back()->with('success', 'Post was successfully '.($post->pinned ? 'pinned' : 'unpinned' ));
+
+            //return response(new PostResource($post));
+        }
+        return  response("You don't have permission to perform this action", 403);
+
+    }
+
+
+        modified:   app/Http/Controllers/GroupController.php
+        modified:   app/Http/Controllers/PostController.php
+        modified:   app/Http/Controllers/ProfileController.php
+        modified:   app/Http/Controllers/SearchController.php
+        modified:   app/Http/Requests/UpdatePostRequest.php
+        modified:   app/Http/Resources/GroupResource.php
+        modified:   app/Http/Resources/UserResource.php
+        modified:   app/Models/Group.php
+        modified:   app/Models/Post.php
+        modified:   app/Models/User.php
+        modified:   resources/js/Components/app/EditDeleteDropdown.vue
+        modified:   resources/js/Components/app/PostItem.vue
+        modified:   resources/js/Layouts/AuthenticatedLayout.vue
+        modified:   routes/web.php
+
+
+        app/Http/Controllers/PinController.php
+	    database/migrations/2024_03_19_172013_add_pinned_post_id_column_to_groups_and_users_table.php
 
 
 

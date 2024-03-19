@@ -2,7 +2,7 @@
 
 import {Menu, MenuButton, MenuItem, MenuItems} from "@headlessui/vue";
 import {EllipsisVerticalIcon, PencilIcon, TrashIcon, EyeIcon} from "@heroicons/vue/20/solid/index.js";
-import {ClipboardIcon} from "@heroicons/vue/24/outline";
+import {ClipboardIcon,MapPinIcon} from "@heroicons/vue/24/outline";
 import {usePage,Link} from "@inertiajs/vue3";
 import {computed} from "vue";
 
@@ -20,11 +20,12 @@ const props = defineProps({
 })
 
 const authUser = usePage().props.auth.user;
+const group = usePage().props.group;
 
 //console.log(props.post?.group)
 //const group    = usePage().props.group;
 
-defineEmits(['edit','delete'])
+defineEmits(['edit','delete','pin'])
 
 const  user = computed(() => props.comment?.user ||  props.post?.user)
 
@@ -34,8 +35,20 @@ const editAllowed = computed(() => {
     return user.value.id === authUser.id
 })
 
+const pinAllowed = computed(() => {
+    return user.value.id === authUser.id || props.post.group && props.post.group.role === 'admin'
+})
 
-console.log(props.comment, props.post)
+const  isPinned = computed(() => {
+    if (group?.id){
+        return group?.pinned_post_id === props.post.id
+    }
+
+    return authUser?.pinned_post_id === props.post.id
+
+})
+
+//console.log(props.comment, props.post)
 const deleteAllowed = computed(() =>{
     if (user.value.id === authUser.id) return  true;
 
@@ -90,8 +103,24 @@ function copyToClipboard() {
                         mt-1 z-20 w-48
                         origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
             >
-                    <!--  Edit Button  -->
+                    <!--  Pin  Button  -->
                 <div class="px-1 py-1">
+
+                    <MenuItem v-slot="{ active }" v-if="pinAllowed">
+                        <button
+                            @click="$emit('pin')"
+                            :class="[
+                                  active ? 'bg-indigo-500 text-white' : 'text-gray-900',
+                                  'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                                ]"
+                        >
+                            <MapPinIcon
+                                class="mr-2 h-5 w-5"
+                                aria-hidden="true" />
+                            {{  isPinned ? 'Unpin' : 'Pin'}}
+                        </button>
+                    </MenuItem>
+
                     <MenuItem v-slot="{ active }">
                         <button
                             @click="copyToClipboard"
@@ -125,6 +154,8 @@ function copyToClipboard() {
                             Open Post
                         </Link>
                     </MenuItem>
+
+                    <!--  Edit  Button  -->
                     <MenuItem v-slot="{ active }" v-if="editAllowed">
                         <button
                             @click="$emit('edit')"

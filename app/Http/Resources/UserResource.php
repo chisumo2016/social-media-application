@@ -24,6 +24,7 @@ class UserResource extends JsonResource
                   "created_at"  =>$this->created_at,
                   "updated_at"  =>$this->updated_at,
                   "username"    =>$this->username,
+                  "pinned_post_id" => $this->pinned_post_id,
                   "cover_url" => $this->cover_path ?  Storage::url($this->cover_path ) : null,//"cover_url" =>$this->cover_path,
                   "avatar_url" =>$this->avatar_path ? Storage::url($this->avatar_path) : '/image/default_cover.webp',    //$this->avatar_path //null
         ];
