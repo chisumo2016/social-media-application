@@ -117,6 +117,7 @@ function toggleDarkMode() {
 
                                 <div v-else>
                                     <Link
+                                        class="dark:text-gray-100"
                                         :href="route('login')">
                                         Login
                                     </Link>

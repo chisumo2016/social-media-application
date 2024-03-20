@@ -264,7 +264,7 @@ function followUser() {
                                 <h2 class="font-bold text-lg">{{ user.name }}</h2>
                                 <p class="text-sm text-gray-700"> {{ followerCount }} followers</p>
                             </div>
-                            <div v-if="authUser.id != user.id">
+                            <div v-if="!isMyProfile">
                                 <!-- Follow User Button  -->
                                 <PrimaryButton
                                     v-if="!isCurrentUserFollower"

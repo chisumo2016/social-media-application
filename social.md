@@ -1219,8 +1219,50 @@
         create mode 100644 resources/js/Components/app/GroupModal2.vue
 
 # SWITCHING DARK MODE
+        Implemennt switch to dark/light mode and saved the mode in localstorage"
         modified:   resources/js/Components/app/PostModal.vue
 	    modified:   resources/js/Layouts/AuthenticatedLayout.vue
 	    modified:   resources/js/app.js
+
+# BUG IN PROFILE/VIEW
+        modified:   resources/js/Layouts/AuthenticatedLayout.vue
+	    modified:   resources/js/Pages/Profile/View.vue
+        
+        authUser.id != user.id
+        <div v-if="authUser.id != user.id">
+            <!-- Follow User Button  -->
+            <PrimaryButton
+                v-if="!isCurrentUserFollower"
+                @click="followUser">
+                Follow User
+            </PrimaryButton>
+
+            <DangerButton
+                v-else
+                @click="followUser">
+                Unfollow User
+            </DangerButton>
+        </div>
+
+        <div v-if="!isMyProfile">
+            <!-- Follow User Button  -->
+            <PrimaryButton
+                v-if="!isCurrentUserFollower"
+                @click="followUser">
+                Follow User
+            </PrimaryButton>
+
+            <DangerButton
+                v-else
+                @click="followUser">
+                Unfollow User
+            </DangerButton>
+        </div>
+
+        <PrimaryButton
+        v-if="!isCurrentUserFollower"
+        @click="followUser">
+        Follow User
+    </PrimaryButton>
 
 
