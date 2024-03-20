@@ -6,7 +6,6 @@ import {computed, ref, watch} from 'vue'
 import PostUserHeader from "@/Components/app/PostUserHeader.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-import  "../../../css/ckeditor.css";
 import {isImage} from "@/Helpers/helpers.js";
 import axiosClient from "@/axiosClient.js";
 import UrlPreview from "@/Components/app/UrlPreview.vue";

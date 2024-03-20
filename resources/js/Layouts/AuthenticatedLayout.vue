@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, router, usePage} from '@inertiajs/vue3';
 import TextInput from "@/Components/TextInput.vue";
+import {MoonIcon} from '@heroicons/vue/24/solid'
 
 
 const showingNavigationDropdown = ref(false);
@@ -15,7 +16,21 @@ const authUser = usePage().props.auth.user;
 
 function search() {
     router.get(route('search', encodeURIComponent(keywords.value) ))  //keywords.value
-    //console.log("seaarcc")
+    //console.log("search")
+}
+
+/*Dark Mode Switch**/
+function toggleDarkMode() {
+   /* Gives html*/
+    const html = window.document.documentElement
+    if (html.classList.contains('dark')){
+        html.classList.remove('dark')
+        localStorage.setItem('darkMode', '0')
+    }else {
+        html.classList.add('dark')
+        localStorage.setItem('darkMode', '1')
+    }
+
 }
 </script>
 
@@ -24,8 +39,8 @@ function search() {
             <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center justify-between h-16 gap-4">
-                        <div class="flex">
+                    <div class="flex items-center justify-between h-16 gap-2">
+                        <div class="flex mr-2">
 
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
@@ -47,13 +62,19 @@ function search() {
                         </div>
 
                         <!-- Global Search -->
-                        <div class="flex-1">
+                        <div class="flex items-center gap-3 flex-1">
 
                             <TextInput
                                 @keyup.enter="search"
                                 v-model="keywords"
                                 placeholder="Search on te website"
                                 class="w-full"/>
+
+                            <button
+                                class="dark:text-white"
+                                @click="toggleDarkMode">
+                                <MoonIcon class="w-5 h-5"/>
+                            </button>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center">

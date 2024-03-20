@@ -1210,5 +1210,17 @@
 # IMPLEMENT DARK MODE
         https://tailwindcss.com/docs/dark-mode
     Implement dark mode and the make the whole website compatible with dark mode .
+        create mode 100644 AttachmentPreviewModal2.vue
+        create mode 100644 InviteUserModal.vue
+        create mode 100644 InviteUserModal2.vue
+        create mode 100644 PostModalTest.vue
+        create mode 100644 resources/css/ckeditor.css
+        create mode 100644 resources/js/Components/app/BaseModal.vue
+        create mode 100644 resources/js/Components/app/GroupModal2.vue
+
+# SWITCHING DARK MODE
+        modified:   resources/js/Components/app/PostModal.vue
+	    modified:   resources/js/Layouts/AuthenticatedLayout.vue
+	    modified:   resources/js/app.js
 
 
