@@ -114,46 +114,107 @@
     color: #4156e2;
 }
 
-/* scrollbar styles */
-/* width */
-.comment-list::-webkit-scrollbar {
+/* WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
     width: 8px;
-    background-color:transparent;
+    background-color: transparent;
 }
 
-/* Track */
-.comment-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Handle */
-.comment-list::-webkit-scrollbar-thumb {
-    background-color:transparent;
+::-webkit-scrollbar-thumb {
+    background-color: #a2c3de; /* Thumb color */
     border-radius: 6px;
 }
 
-/* Handle on hover */
-.comment-list::-webkit-scrollbar-thumb:hover {
-    background: #555;
+::-webkit-scrollbar-track {
+    background-color: #f1f1f3; /* Track color */
 }
 
-/*=======*/
 
-/* scrollbar styles */
-
-/* Track */
-.comment-list:hover::-webkit-scrollbar-track {
-    background-color: #F1F1F3;
+html.dark ::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
 }
 
-/* Handle */
-.comment-list:hover::-webkit-scrollbar-thumb {
-    background-color:#E2F2FF;
+html.dark ::-webkit-scrollbar-thumb {
+    background-color: #031a25; /* Thumb color */
+    border-radius: 6px;
 }
 
-/* Handle on hover */
-.comment-list:hover::-webkit-scrollbar-thumb:hover {
-    background: #555;
+html.dark ::-webkit-scrollbar-track {
+    background-color: #0a2d3e; /* Track color */
 }
-/*#4F46E5*/
+
+
+/* DARK MODE **/
+html.dark    .ck-reset_all :not(.ck-reset_all-excluded *),
+html.dark .ck.ck-reset_all{
+    color: white;
+}
+
+html.dark .ck.ck-toolbar {
+    background-color: rgb(30, 41 , 59);
+}
+
+html.dark .ck.ck-button:not(.ck-disabled):hover,
+html.dark a.ck.ck-button:not(.ck-disabled):hover,
+html.dark .ck.ck-button:not(.ck-disabled):active,
+html.dark a.ck.ck-button:not(.ck-disabled):active,
+html.dark .ck.ck-button.ck-on,
+html.dark a.ck.ck-button.ck-on{
+    background-color: rgb(15, 23, 42);
+}
+
+html.dark .ck.ck-editor__main>.ck-editor__editable {
+    background-color: rgb(30, 41, 59);
+    color: white;
+}
+
+html.dark .ck.ck-list {
+    background-color: rgb(30, 41, 59);
+}
+
+
+/*!* scrollbar styles   .comment-list::*!*/
+
+/*!* width *!*/
+/*::-webkit-scrollbar {*/
+/*    width: 8px;*/
+/*    background-color:transparent;*/
+/*}*/
+
+/*!* Track *!*/
+/*::-webkit-scrollbar-track {*/
+/*    background: transparent;*/
+/*}*/
+
+/*!* Handle *!*/
+/*::-webkit-scrollbar-thumb {*/
+/*    background-color:transparent;*/
+/*    border-radius: 6px;*/
+/*}*/
+
+/*!* Handle on hover *!*/
+/*::-webkit-scrollbar-thumb:hover {*/
+/*    background: #555;*/
+/*}*/
+
+/*!*=======*!*/
+
+/*!* scrollbar styles *!*/
+
+/*!* Track *!*/
+/*.comment-list:hover::-webkit-scrollbar-track {*/
+/*    background-color: #F1F1F3;*/
+/*}*/
+
+/*!* Handle *!*/
+/*.comment-list:hover::-webkit-scrollbar-thumb {*/
+/*    background-color:#E2F2FF;*/
+/*}*/
+
+/*!* Handle on hover *!*/
+/*.comment-list:hover::-webkit-scrollbar-thumb:hover {*/
+/*    background: #555;*/
+/*}*/
+/*!*#4F46E5*!*/
 

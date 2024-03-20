@@ -1208,6 +1208,7 @@
           modified:   app/Models/Post.php
 
 # IMPLEMENT DARK MODE
+        https://tailwindcss.com/docs/dark-mode
     Implement dark mode and the make the whole website compatible with dark mode .
 
 

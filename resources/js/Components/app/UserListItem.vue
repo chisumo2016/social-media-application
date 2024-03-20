@@ -22,7 +22,7 @@ defineEmits(['approve','reject', 'roleChange','delete'])
 </script>
 
 <template>
-    <div class="mb-3 bg-white transition-all  border-2 border-transparent hover:border-indigo-500">
+    <div class="mb-3 bg-white dark:bg-slate-900 dark:text-gray-100 transition-all  border-2 border-transparent hover:border-indigo-500">
 
         <div  class="flex items-center gap-2 py-2 px-2">
 

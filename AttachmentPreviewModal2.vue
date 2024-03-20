@@ -11,7 +11,6 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 import {isImage, isVideo} from "@/Helpers/helpers.js";
-import BaseModal from "@/Components/app/BaseModal.vue";
 
 
 
@@ -68,7 +67,6 @@ function next() {
 
 </script>
 <template>
-    <BaseModal />
    <teleport to="body">
 
        <TransitionRoot appear :show="show" as="template">
