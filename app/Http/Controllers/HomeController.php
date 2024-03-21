@@ -23,6 +23,8 @@ class HomeController extends Controller
         $posts = Post::postsForTimeLine($userId)
 
             ->select('posts.*') //select the only post , which is made by the users I am following
+
+            ->select('posts.*')
             ->leftJoin('followers AS f', function ($join) use ($userId) {
                 $join->on('posts.user_id', '=', 'f.user_id')
                     ->where('f.follower_id', '=', $userId);

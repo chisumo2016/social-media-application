@@ -905,6 +905,7 @@
             modified:   resources/js/Components/app/GroupItem.vue
             modified:   resources/js/Pages/Home.vue
             modified:   resources/js/Pages/Profile/View.vue
+
         EG Mary I  am not following to Mary , I should not see Mary Post on my  Timeline
 
             SELECT f.follower_id , gu.group_id, posts.* FROM posts
@@ -1132,6 +1133,13 @@
             props.post.pinned = !props.post.pinned
         })
     }
+
+
+
+# IMPLEMENT PHOTOS TAB 
+    We're going to  implement rendering  only relevant posts on the  homepage timelineof the user 
+    We're goiing to show  only  posts which are placed in same group I am part of or which are posted by 
+            the users I am following
 
 
     php artisan migrate:rollback --step=1

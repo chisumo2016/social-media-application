@@ -50,12 +50,14 @@ class ProfileController extends Controller
 
         $followings = $user->followings;
 
+
         /**Display Photos **/
         $photos = PostAttachment::query()
             ->where('mime', 'like', 'image/%')
             ->where('created_by', $user->id)
             ->latest()
             ->get();
+
 
 
         return Inertia::render('Profile/View', [

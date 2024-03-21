@@ -14,12 +14,9 @@ import PostList from "@/Components/app/PostList.vue";
 import UserListItem from "@/Components/app/UserListItem.vue";
 import TextInput from "@/Components/TextInput.vue";
 import TabItem from "@/Pages/Profile/Partials/TabItem.vue";
+
 import PostAttachments from "@/Components/app/PostAttachments.vue";
 import TabPhotos from "@/Pages/Profile/TabPhotos.vue";
-
-
-
-
 
 const coverImageSrc = ref('')
 const avatarImageSrc = ref('')

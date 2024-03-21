@@ -89,11 +89,12 @@ class PostController extends Controller
 
             if ($group){
                 $users = $group->approvedUsers()->where('users.id', '!=', $user->id)->get();
+
                Notification::send($users , new PostCreated($post, $user, $group));
 
                /**Globally**/
 
-                $followers = $user->followers;
+                $followers = $users->followers;
 
                 Notification::send($followers , new PostCreated($post, $user, null));
                 //dd($followers);
