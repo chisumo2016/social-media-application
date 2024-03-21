@@ -1225,6 +1225,7 @@
 	    modified:   resources/js/app.js
 
 # BUG IN PROFILE/VIEW
+        Fix Profile/View bug for guest user
         modified:   resources/js/Layouts/AuthenticatedLayout.vue
 	    modified:   resources/js/Pages/Profile/View.vue
         
@@ -1264,5 +1265,22 @@
         @click="followUser">
         Follow User
     </PrimaryButton>
+
+# DEPLOY WITH GITHUB ACTION  OR LARAVEL HOSTING WITH GITHUB ACTIONS
+    We're going to set up the hosting grab the domain  and deploy oour  project on hosting or shared hosting
+        with Github actions .
+
+        STEPS
+        hpanel.hostinger.com
+            Preminuum - setup
+                        Claim a free domain
+
+        PHP 7.3
+        PHP 7.3
+        PHP 8.0
+        PHP 8.1
+        PHP 8.2
+        PHP 8.3 22.12.2023
+        
 
 
